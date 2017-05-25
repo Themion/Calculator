@@ -13,7 +13,7 @@ public class MainActivity extends Activity
     final int MULT = 2;
     final int DIV = 3;
     final int EQU = 4;
-    final String[] opSet = {"　+", "　-", "　×", "　÷", "　="};
+    final String[] opSet = {" + ", " - ", " × ", " ÷ ", " = "};
 
     TextView edit, subEdit, valEdit;
     Button add, sub, mult, div, equ;
@@ -30,15 +30,27 @@ public class MainActivity extends Activity
         public void onClick(View v) {
             // TODO Auto-generated method stub
 
+            if (isThere)
+            {
+                double data = list.doCalc();
+                subEdit.setText("" + data);
+                edit.setText("");
+
+                list = new LinkedList();
+                it = list.getLast();
+                it.setPrintData(data);
+
+                isThere = false;
+            }
+
             switch (v.getId()) {
                 case R.id.btn_add:
                     value = ADD;
+                    it.setCalcOp(value);
 
-                    valEdit.setText(opSet[value]);
-                    subEdit.setText(list.print());
+                    subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
 
-                    it.setCalcOp(value);
                     list.addNode();
 
                     isThere = false;
@@ -47,12 +59,11 @@ public class MainActivity extends Activity
 
                 case R.id.btn_sub:
                     value = SUB;
+                    it.setCalcOp(value);
 
-                    valEdit.setText(opSet[value]);
-                    subEdit.setText(list.print());
+                    subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
 
-                    it.setCalcOp(value);
                     list.addNode();
 
                     isThere = false;
@@ -61,12 +72,11 @@ public class MainActivity extends Activity
 
                 case R.id.btn_mult:
                     value = MULT;
+                    it.setCalcOp(value);
 
-                    valEdit.setText(opSet[value]);
-                    subEdit.setText(list.print());
+                    subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
 
-                    it.setCalcOp(value);
                     list.addNode();
 
                     isThere = false;
@@ -75,12 +85,11 @@ public class MainActivity extends Activity
 
                 case R.id.btn_div:
                     value = DIV;
+                    it.setCalcOp(value);
 
-                    valEdit.setText(opSet[value]);
-                    subEdit.setText(list.print());
+                    subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
 
-                    it.setCalcOp(value);
                     list.addNode();
 
                     isThere = false;
@@ -90,14 +99,11 @@ public class MainActivity extends Activity
                 case R.id.btn_equ:
                     value = EQU;
 
-                    valEdit.setText(opSet[value]);
-                    subEdit.setText(list.print());
+                    subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText(list.doCalc() + "");
 
                     it.setCalcOp(value);
                     isThere = true;
-
-                    list = new LinkedList();
 
                     break;
             }
@@ -163,53 +169,67 @@ public class MainActivity extends Activity
     public void onClick(View v) {
         it = list.getLast();
 
-        if (isThere) {
+        if (isThere)
+        {
             edit.setText("");
             subEdit.setText("");
             valEdit.setText("");
+
+            list = new LinkedList();
+
             isThere = false;
         }
 
         switch (v.getId()) {
             case R.id.btn_0:
                 it.setPrintData(it.getPrintData() * 10 + 0);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "0");
+
                 break;
             case R.id.btn_1:
                 it.setPrintData(it.getPrintData() * 10 + 1);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "1");
+
                 break;
             case R.id.btn_2:
                 it.setPrintData(it.getPrintData() * 10 + 2);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "2");
+
                 break;
             case R.id.btn_3:
                 it.setPrintData(it.getPrintData() * 10 + 3);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "3");
+
                 break;
             case R.id.btn_4:
                 it.setPrintData(it.getPrintData() * 10 + 4);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "4");
+
                 break;
             case R.id.btn_5:
                 it.setPrintData(it.getPrintData() * 10 + 5);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "5");
+
                 break;
             case R.id.btn_6:
                 it.setPrintData(it.getPrintData() * 10 + 6);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "6");
+
                 break;
             case R.id.btn_7:
                 it.setPrintData(it.getPrintData() * 10 + 7);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "7");
+
                 break;
             case R.id.btn_8:
                 it.setPrintData(it.getPrintData() * 10 + 8);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "8");
+
                 break;
             case R.id.btn_9:
                 it.setPrintData(it.getPrintData() * 10 + 9);
-                edit.setText(it.getPrintData() + "");
+                subEdit.setText(subEdit.getText() + "9");
+
                 break;
         }
     }

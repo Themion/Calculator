@@ -12,7 +12,7 @@ public class LinkedList extends Node
     private int len;
     private Node list;
     private Node first, last;
-    private String[] opSet = {"+", "-", "×", "÷", "="};
+    private String[] opSet = {" + ", " - ", " × ", " ÷ ", " = "};
 
     LinkedList()
     {
@@ -141,11 +141,11 @@ public class LinkedList extends Node
 
         while(it != this.last)
         {
-            prt += " " +  it.getPrintData() + " " + this.opSet[it.getPrintOp()];
+            prt += "" +  it.getPrintData() + this.opSet[it.getPrintOp()];
             it = it.getNext();
         }
 
-        prt += " " + this.last.getPrintData();
+        prt += "" + this.last.getPrintData();
 
         this.last.setPrintOp(temp);
         return prt;
