@@ -21,12 +21,6 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/valEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:gravity="end|center" />
-
-            <TextView
                 android:id="@+id/edit"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
@@ -41,6 +35,82 @@
         android:layout_gravity="bottom|center"
         android:gravity="bottom"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5">
+
+            <Button
+                android:id="@+id/btn_sin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="sin" />
+
+            <Button
+                android:id="@+id/btn_cos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="cos" />
+
+            <Button
+                android:id="@+id/btn_tan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="tan" />
+
+            <Button
+                android:id="@+id/btn_pi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="π" />
+
+            <Button
+                android:id="@+id/btn_deg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="RAD" />
+        </LinearLayout>
+<!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/btn_brac"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="(　)" />
+
+            <Button
+                android:id="@+id/btn_squ"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="n²" />
+
+            <Button
+                android:id="@+id/btn_pow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="mⁿ" />
+        </LinearLayout>
+-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -132,7 +202,6 @@
 
             <Button
                 android:id="@+id/btn_2"
-
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -170,7 +239,7 @@
                 android:text="0" />
 
             <Button
-                android:id="@+id/btn_cancel"
+                android:id="@+id/btn_C"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

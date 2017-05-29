@@ -1,12 +1,24 @@
 package com.example.themion.calculator;
 
-public class LinkedList extends Node
+public class LinkedList
 {
+    final int NOT_AN_OPERATOR = -1;
     final int ADD = 0;
     final int SUB = 1;
     final int MULT = 2;
     final int DIV = 3;
     final int EQU = 4;
+
+    final int noBrac = 0;
+    final int rightBrac = 1;
+    final int leftBrac = 2;
+
+    final int noFunc = 0;
+    final int sinFunc = 1;
+    final int cosFunc = 2;
+    final int tanFunc = 3;
+
+    private boolean ifDeg = false;
 
     private double dataCalc;
     private int len;
@@ -23,7 +35,11 @@ public class LinkedList extends Node
         this.last = this.list;
     }
 
+    int getLen() {return this.len;}
     Node getLast() {return this.last;}
+    boolean getDeg() {return this.ifDeg;}
+
+    void setDeg(boolean ifDeg) {this.ifDeg = ifDeg;}
 /*
     node seek(int index)
     {
@@ -57,76 +73,154 @@ public class LinkedList extends Node
         this.len++;
     }
 
-    public double doCalc()
+    double doCalc()
     {
         this.dataCalc = 0;
 
+        Node it = this.first;
+
+        while(it != null)
+        {
+            boolean ifOverSingularity = false;
+
+            switch(it.getFunc())
+            {
+                case (sinFunc):
+                    if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
+
+                    while(it.getCalcData() < 0)
+                        it.setCalcData(it.getCalcData() + (2 * Math.PI));
+
+                    while(it.getCalcData() >= 2 * Math.PI)
+                        it.setCalcData(it.getCalcData() - (2 * Math.PI));
+
+                    if(it.getCalcData() > Math.PI)
+                    {
+                        ifOverSingularity = true;
+                        it.setCalcData(it.getCalcData() - (Math.PI));
+                    }
+
+                    if(it.getCalcData() > (Math.PI / 2))
+                        it.setCalcData(Math.PI - it.getCalcData());
+
+                    it.setCalcData(Math.sin(it.getCalcData()));
+
+                    if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
+
+                    break;
+
+                case (cosFunc):
+                    if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
+
+                    while(it.getCalcData() < 0)
+                        it.setCalcData(it.getCalcData() + (2 * Math.PI));
+
+                    while(it.getCalcData() >= 2 * Math.PI)
+                        it.setCalcData(it.getCalcData() - (2 * Math.PI));
+
+                    if(it.getCalcData() > Math.PI)
+                        it.setCalcData(it.getCalcData() - (Math.PI));
+
+                    if(it.getCalcData() > (Math.PI / 2))
+                    {
+                        ifOverSingularity = true;
+                        it.setCalcData(Math.PI - it.getCalcData());
+                    }
+
+                    it.setCalcData(Math.cos(it.getCalcData()) / Math.cos(Math.toRadians(90)));
+
+                    if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
+
+                    break;
+
+                case (tanFunc):
+                    if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
+
+                    while(it.getCalcData() < 0)
+                        it.setCalcData(it.getCalcData() + (Math.PI));
+
+                    while(it.getCalcData() >= Math.PI)
+                        it.setCalcData(it.getCalcData() - (Math.PI));
+
+                    if(it.getCalcData() > (Math.PI / 2))
+                    {
+                        ifOverSingularity = true;
+                        it.setCalcData(it.getCalcData() - (Math.PI / 2));
+                    }
+
+                    it.setCalcData(Math.tan(it.getCalcData()) / Math.tan(Math.PI / 4));
+
+                    if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
+
+                    break;
+            }
+
+            it = it.getNext();
+        }
+
         if(this.len == 1)
         {
-            this.dataCalc = this.list.getCalcData();
+            this.dataCalc = this.first.getCalcData();
             return this.dataCalc;
         }
 
-        Node it = this.last;
+        it = this.first;
 
-        while(it.getPrev() != null)
+        while(it.getNext() != null)
         {
-            switch(it.getPrev().getCalcOp())
+            switch(it.getCalcOp())
             {
                 case (MULT):
-                    it.getPrev().setCalcData(it.getPrev().getCalcData() * it.getCalcData());
-                    it.setCalcOp(it.getPrev().getCalcOp());
-                    it.setCalcData(0);
+                    it.getNext().setCalcData(it.getCalcData() * it.getNext().getCalcData());
                     it.setCalcOp(ADD);
+                    it.setCalcData(0);
+
                     break;
 
                 case (DIV):
-                    it.getPrev().setCalcData(it.getPrev().getCalcData() / it.getCalcData());
-                    it.setCalcOp(it.getPrev().getCalcOp());
-                    it.setCalcData(0);
+                    it.getNext().setCalcData(it.getCalcData() / it.getNext().getCalcData());
                     it.setCalcOp(ADD);
+                    it.setCalcData(0);
+
                     break;
             }
 
-            it = it.getPrev();
+            it = it.getNext();
         }
 
-        it = this.last;
+        it = this.first;
 
-        while(it.getPrev() != null)
+        while(it.getNext() != null)
         {
-            switch(it.getPrev().getCalcOp())
+            switch(it.getCalcOp())
             {
                 case (ADD):
-                    it.getPrev().setCalcData(it.getPrev().getCalcData() + it.getCalcData());
-                    it.setCalcOp(it.getPrev().getCalcOp());
-                    it.setCalcData(0);
+                    it.getNext().setCalcData(it.getCalcData() + it.getNext().getCalcData());
                     it.setCalcOp(ADD);
+                    it.setCalcData(0);
+
                     break;
 
                 case (SUB):
-                    it.getPrev().setCalcData(it.getPrev().getCalcData() - it.getCalcData());
-                    it.setCalcOp(it.getPrev().getCalcOp());
-                    it.setCalcData(0);
+                    it.getNext().setCalcData(it.getCalcData() - it.getNext().getCalcData());
                     it.setCalcOp(ADD);
+                    it.setCalcData(0);
+
                     break;
             }
 
-            it = it.getPrev();
+            it = it.getNext();
         }
 
-        it = this.last;
-        this.dataCalc = this.first.getCalcData();
+        this.dataCalc = this.last.getCalcData();
+        it = this.first;
 
-        while(it.getPrev() != null)
+        while(it != null)
         {
             it.setCalcData(it.getPrintData());
             it.setCalcOp(it.getPrintOp());
-            it = it.getPrev();
+            it = it.getNext();
         }
-
-        it.setCalcData(it.getPrintData());
-        it.setCalcOp(it.getPrintOp());
 
         return this.dataCalc;
     }
@@ -135,11 +229,10 @@ public class LinkedList extends Node
     {
         Node it = this.first;
         String prt = "";
-        int temp = this.last.getPrintOp();
 
         this.last.setPrintOp(EQU);
 
-        while(it != this.last)
+        while(it.getNext() != null)
         {
             prt += "" +  it.getPrintData() + this.opSet[it.getPrintOp()];
             it = it.getNext();
@@ -147,7 +240,6 @@ public class LinkedList extends Node
 
         prt += "" + this.last.getPrintData();
 
-        this.last.setPrintOp(temp);
         return prt;
     }
 }
