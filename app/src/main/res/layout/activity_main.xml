@@ -81,24 +81,31 @@
                 android:onClick="onClick"
                 android:text="RAD" />
         </LinearLayout>
-<!--
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="4">
+            android:weightSum="6">
 
             <Button
-                android:id="@+id/btn_brac"
+                android:id="@+id/btn_lBrac"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="(　)" />
+                android:text="(" />
+
+            <Button
+                android:id="@+id/btn_rBrac"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text=")" />
 
             <Button
                 android:id="@+id/btn_squ"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:onClick="onClick"
                 android:text="n²" />
 
@@ -106,11 +113,11 @@
                 android:id="@+id/btn_pow"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:onClick="onClick"
                 android:text="mⁿ" />
         </LinearLayout>
--->
+
 
         <LinearLayout
             android:layout_width="match_parent"

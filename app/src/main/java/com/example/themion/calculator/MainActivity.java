@@ -16,6 +16,13 @@ public class MainActivity extends Activity
     final int EQU = 4;
     final String[] opSet = {" + ", " - ", " × ", " ÷ ", " = "};
 
+    final int noBrac = 0;
+    final int isBrac = 1;
+
+    final int noCalc = 0;
+    final int squCalc = 1;
+    final int powCalc = 2;
+
     final int noF = 0;
     final int sinF = 1;
     final int cosF = 2;
@@ -24,6 +31,7 @@ public class MainActivity extends Activity
     TextView edit, subEdit;
     Button add, sub, mult, div, equ;
     Button C;
+    Button lBrac, rBrac, squ, pow;
     Button sin, cos, tan, pi, deg;
 
     int value = NOT_AN_OPERATOR;
@@ -52,6 +60,16 @@ public class MainActivity extends Activity
         div.setOnClickListener(opLsn);
         equ.setOnClickListener(opLsn);
 
+        lBrac = (Button) findViewById(R.id.btn_lBrac);
+        rBrac = (Button) findViewById(R.id.btn_rBrac);
+        squ = (Button) findViewById(R.id.btn_squ);
+        pow = (Button) findViewById(R.id.btn_pow);
+
+        rBrac.setOnClickListener(cLsn);
+        lBrac.setOnClickListener(cLsn);
+        squ.setOnClickListener(cLsn);
+        pow.setOnClickListener(cLsn);
+
         sin = (Button) findViewById(R.id.btn_sin);
         cos = (Button) findViewById(R.id.btn_cos);
         tan = (Button) findViewById(R.id.btn_tan);
@@ -65,7 +83,7 @@ public class MainActivity extends Activity
         deg.setOnClickListener(fLsn);
 
         C = (Button) findViewById(R.id.btn_C);
-        C.setOnClickListener(cLsn);
+        C.setOnClickListener(cancelListener);
 
         list = new LinkedList();
         it = list.getLast();
@@ -86,7 +104,8 @@ public class MainActivity extends Activity
             isThere = false;
         }
 
-        switch (v.getId()) {
+        switch (v.getId())
+        {
             case R.id.btn_0:
                 it.setPrintData(it.getPrintData() * 10 + 0);
                 subEdit.setText(subEdit.getText() + "0");
@@ -227,6 +246,7 @@ public class MainActivity extends Activity
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText(list.doCalc() + "");
+                    list.restore();
 
                     it.setPrintOp(value);
                     isThere = true;
@@ -236,7 +256,7 @@ public class MainActivity extends Activity
         }
     };
 
-    Button.OnClickListener fLsn = new Button.OnClickListener()
+    Button.OnClickListener cLsn = new Button.OnClickListener()
     {
         @Override
         public void onClick(View v)
@@ -260,6 +280,53 @@ public class MainActivity extends Activity
 
             switch(v.getId())
             {
+                case R.id.btn_lBrac:
+                    it.setLBrac(isBrac);
+
+                    subEdit.setText(subEdit.getText() + "(");
+
+                    break;
+
+                case R.id.btn_rBrac:
+                    it.setRBrac(isBrac);
+
+                    subEdit.setText(subEdit.getText() + ")");
+
+                    break;
+
+                case R.id.btn_squ:
+
+                    break;
+
+                case R.id.btn_pow:
+
+                    break;
+
+            }
+        }
+    };
+
+    Button.OnClickListener fLsn = new Button.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            it = list.getLast();
+
+            if (isThere)
+            {
+                double data = list.doCalc();
+                subEdit.setText("");
+                edit.setText("");
+
+                list = new LinkedList();
+                it = list.getLast();
+
+                isThere = false;
+            }
+
+            switch(v.getId())
+            {
                 case R.id.btn_sin:
                     if((list.getLen() != 1) || (it.getPrintData() != 0))
                     {
@@ -273,7 +340,8 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(sinF);
-                    subEdit.setText(subEdit.getText() + "sin");
+                    it.setRBrac(isBrac);
+                    subEdit.setText(subEdit.getText() + "sin(");
 
                     break;
 
@@ -325,15 +393,13 @@ public class MainActivity extends Activity
                     if(list.getDeg()) deg.setText("DEG");
                     else deg.setText("RAD");
 
-                    edit.setText("" + list.getDeg());
-
                     break;
 
             }
         }
     };
 
-    Button.OnClickListener cLsn = new Button.OnClickListener()
+    Button.OnClickListener cancelListener = new Button.OnClickListener()
     {
         @Override
         public void onClick(View v)
