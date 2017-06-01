@@ -190,52 +190,52 @@ public class MainActivity extends Activity
 
             switch (v.getId()) {
                 case R.id.btn_add:
+                    list.addNode();
+
                     value = ADD;
                     it.setPrintOp(value);
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
 
-                    list.addNode();
-
                     isThere = false;
 
                     break;
 
                 case R.id.btn_sub:
+                    list.addNode();
+
                     value = SUB;
                     it.setPrintOp(value);
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
 
-                    list.addNode();
-
                     isThere = false;
 
                     break;
 
                 case R.id.btn_mult:
+                    list.addNode();
+
                     value = MULT;
                     it.setPrintOp(value);
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
 
-                    list.addNode();
-
                     isThere = false;
 
                     break;
 
                 case R.id.btn_div:
+                    list.addNode();
+
                     value = DIV;
                     it.setPrintOp(value);
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
-
-                    list.addNode();
 
                     isThere = false;
 
@@ -281,14 +281,14 @@ public class MainActivity extends Activity
             switch(v.getId())
             {
                 case R.id.btn_lBrac:
-                    it.setLBrac(isBrac);
+                    it.setLBrac(it.getLBrac() + 1);
 
                     subEdit.setText(subEdit.getText() + "(");
 
                     break;
 
                 case R.id.btn_rBrac:
-                    it.setRBrac(isBrac);
+                    it.setRBrac(it.getRBrac() + 1);
 
                     subEdit.setText(subEdit.getText() + ")");
 
@@ -340,8 +340,7 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(sinF);
-                    it.setRBrac(isBrac);
-                    subEdit.setText(subEdit.getText() + "sin(");
+                    subEdit.setText(subEdit.getText() + "sin");
 
                     break;
 

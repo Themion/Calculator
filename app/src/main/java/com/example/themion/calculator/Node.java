@@ -59,8 +59,8 @@ public class Node {
     void setCalcData(double calcData) {this.calcData = calcData;}
     void setPrintOp(int printOp) {this.printOp = printOp; this.calcOp = printOp;}
     void setCalcOp(int calcOp) {this.calcOp = calcOp;}
-    void setRBrac(int rBrac) {this.rBrac = rBrac;}
     void setLBrac(int lBrac) {this.lBrac = lBrac;}
+    void setRBrac(int rBrac) {this.rBrac = rBrac;}
     void setFunc(int func) {this.func = func;}
     void setNext(Node next) {this.next = next;}
     void setPrev(Node prev) {this.prev = prev;}

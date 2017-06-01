@@ -78,21 +78,20 @@ public class LinkedList
     }
 
     double doCalc()
-
     {
         this.dataCalc = 0;
 
         Node it = this.first, lB = new Node(), rB = new Node();
         LinkedList temp = new LinkedList();
-        int tmplen = 0;
-
-        int bracCount = 0;
+        int tmplen = 1, bracCount = 0;
 
         while(it != null)
         {
-            if(it.getLBrac() == isBrac)
+            if(it.getLBrac() > 0)
             {
-                if(bracCount == 0)
+                bracCount += it.getLBrac();
+
+                if(bracCount == it.getLBrac())
                 {
                     lB = it;
                     tmplen = 1;
@@ -101,25 +100,22 @@ public class LinkedList
                     temp.first = lB;
                     temp.first.setLBrac(noBrac);
                 }
-
-                bracCount++;
             }
 
-            if(it.getRBrac() == isBrac)
+            if(it.getRBrac() > 0)
             {
-                bracCount--;
+                bracCount -= it.getRBrac();
 
                 if(bracCount == 0)
                 {
                     rB = it;
 
-                    temp.last =rB;
+                    temp.last = rB;
                     temp.last.setRBrac(noBrac);
                     temp.setLen(tmplen);
+                    tmplen = 1;
 
-                    it = rB.getPrev().getNext();
-
-                    it.setCalcData(temp.doCalc());
+                    temp.doCalc();
                 }
             }
 
@@ -127,7 +123,7 @@ public class LinkedList
             it = it.getNext();
         }
 
-        it = new Node();
+        it = this.first;
         it.setNext(this.first);
 
         while(it != this.getLast())
@@ -222,16 +218,16 @@ public class LinkedList
             switch(it.getCalcOp())
             {
                 case (MULT):
-                    it.setCalcData(it.getCalcData() * it.getNext().getCalcData());
+                    it.getNext().setCalcData(it.getCalcData() * it.getNext().getCalcData());
                     it.setCalcOp(ADD);
-                    it.getNext().setCalcData(0);
+                    it.setCalcData(0);
 
                     break;
 
                 case (DIV):
-                    it.setCalcData(it.getCalcData() / it.getNext().getCalcData());
+                    it.getNext().setCalcData(it.getCalcData() / it.getNext().getCalcData());
                     it.setCalcOp(ADD);
-                    it.getNext().setCalcData(0);
+                    it.setCalcData(0);
 
                     break;
             }
@@ -246,16 +242,16 @@ public class LinkedList
             switch(it.getCalcOp())
             {
                 case (ADD):
-                    it.setCalcData(it.getCalcData() + it.getNext().getCalcData());
+                    it.getNext().setCalcData(it.getCalcData() + it.getNext().getCalcData());
                     it.setCalcOp(ADD);
-                    it.getNext().setCalcData(0);
+                    it.setCalcData(0);
 
                     break;
 
                 case (SUB):
-                    it.setCalcData(it.getCalcData() - it.getNext().getCalcData());
+                    it.getNext().setCalcData(it.getCalcData() - it.getNext().getCalcData());
                     it.setCalcOp(ADD);
-                    it.getNext().setCalcData(0);
+                    it.setCalcData(0);
 
                     break;
             }
@@ -263,6 +259,8 @@ public class LinkedList
             it = it.getNext();
         }
 
+        this.first.setCalcData(this.getLast().getCalcData());
+        this.last.setCalcData(0);
         this.dataCalc = this.first.getCalcData();
 
         return this.dataCalc;
