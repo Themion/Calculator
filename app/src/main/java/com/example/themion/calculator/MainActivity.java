@@ -337,6 +337,7 @@ public class MainActivity extends Activity
                         edit.setText("");
 
                         list.addNode();
+                        it = it.getNext();
                     }
 
                     it.setFunc(sinF);
@@ -354,6 +355,7 @@ public class MainActivity extends Activity
                         edit.setText("");
 
                         list.addNode();
+                        it = it.getNext();
                     }
 
                     it.setFunc(cosF);
@@ -371,6 +373,7 @@ public class MainActivity extends Activity
                         edit.setText("");
 
                         list.addNode();
+                        it = it.getNext();
                     }
 
                     it.setFunc(tanF);

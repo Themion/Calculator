@@ -115,7 +115,9 @@ public class LinkedList
                     temp.setLen(tmplen);
                     tmplen = 1;
 
-                    temp.doCalc();
+                    it = lB.getNext().getPrev();
+                    it.setCalcData(temp.doCalc());
+                    it = rB.getPrev().getNext();
                 }
             }
 
@@ -123,7 +125,7 @@ public class LinkedList
             it = it.getNext();
         }
 
-        it = this.first;
+        it = new Node();
         it.setNext(this.first);
 
         while(it != this.getLast())
@@ -176,7 +178,7 @@ public class LinkedList
                         it.setCalcData(Math.PI - it.getCalcData());
                     }
 
-                    it.setCalcData(Math.cos(it.getCalcData()) / Math.cos(Math.toRadians(90)));
+                    it.setCalcData(Math.cos(it.getCalcData()) / Math.cos(0));
 
                     if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
 
