@@ -21,12 +21,12 @@ public class Node {
 
     private double printData;
     private double calcData;
+    private int point;
 
     private int calcOp;
     private int printOp;
 
     private int lBrac, rBrac;
-    private int calc;
     private int func;
 
     private Node prev;
@@ -38,6 +38,7 @@ public class Node {
         this.calcData = 0;
         this.printOp = NOT_AN_OPERATOR;
         this.calcOp = NOT_AN_OPERATOR;
+        this.point = 0;
         this.lBrac = noBrac;
         this.rBrac = noBrac;
         this.func = noFunc;
@@ -49,6 +50,7 @@ public class Node {
     double getCalcData() {return this.calcData;}
     int getPrintOp() {return this.printOp;}
     int getCalcOp() {return this.calcOp;}
+    int getPoint() {return this.point;}
     int getLBrac() {return this.lBrac;}
     int getRBrac() {return this.rBrac;}
     int getFunc() {return this.func;}
@@ -59,6 +61,7 @@ public class Node {
     void setCalcData(double calcData) {this.calcData = calcData;}
     void setPrintOp(int printOp) {this.printOp = printOp; this.calcOp = printOp;}
     void setCalcOp(int calcOp) {this.calcOp = calcOp;}
+    void setPoint(int point) {this.point = point;}
     void setLBrac(int lBrac) {this.lBrac = lBrac;}
     void setRBrac(int rBrac) {this.rBrac = rBrac;}
     void setFunc(int func) {this.func = func;}

@@ -13,13 +13,12 @@ public class LinkedList
     final int isBrac = 1;
 
     final int noCalc = 0;
-    final int squCalc = 1;
-    final int powCalc = 2;
 
     final int noFunc = 0;
     final int sinFunc = 1;
     final int cosFunc = 2;
     final int tanFunc = 3;
+    final int powFunc = 4;
 
     private boolean ifDeg = false;
 
@@ -81,7 +80,7 @@ public class LinkedList
     {
         this.dataCalc = 0;
 
-        Node it = this.first, lB = new Node(), rB = new Node();
+        Node it =/* this.first, lB = new Node(), rB = new Node();
         LinkedList temp = new LinkedList();
         int tmplen = 1, bracCount = 0;
 
@@ -125,7 +124,7 @@ public class LinkedList
             it = it.getNext();
         }
 
-        it = new Node();
+        it =*/ new Node();
         it.setNext(this.first);
 
         while(it != this.getLast())
@@ -134,9 +133,12 @@ public class LinkedList
 
             it = it.getNext();
 
+            it.setPrintData(it.getPrintData() / Math.pow(10, it.getPoint()));
+
             switch(it.getFunc())
             {
                 case (sinFunc):
+                    it = it.getNext();
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -161,6 +163,7 @@ public class LinkedList
                     break;
 
                 case (cosFunc):
+                    it = it.getNext();
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -185,6 +188,7 @@ public class LinkedList
                     break;
 
                 case (tanFunc):
+                    it = it.getNext();
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -202,6 +206,12 @@ public class LinkedList
                     it.setCalcData(Math.tan(it.getCalcData()) / Math.tan(Math.PI / 4));
 
                     if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
+
+                    break;
+
+                case (powFunc):
+                    it.getNext().setCalcData(Math.pow(it.getCalcData(), it.getNext().getCalcData()));
+                    it.setCalcData(0);
 
                     break;
             }

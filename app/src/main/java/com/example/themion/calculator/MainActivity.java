@@ -20,22 +20,24 @@ public class MainActivity extends Activity
     final int isBrac = 1;
 
     final int noCalc = 0;
-    final int squCalc = 1;
-    final int powCalc = 2;
 
     final int noF = 0;
     final int sinF = 1;
     final int cosF = 2;
     final int tanF = 3;
+    final int powF = 4;
 
     TextView edit, subEdit;
-    Button add, sub, mult, div, equ;
     Button C;
+    Button add, sub, mult, div, equ;
     Button lBrac, rBrac, squ, pow;
     Button sin, cos, tan, pi, deg;
 
     int value = NOT_AN_OPERATOR;
+
     boolean isThere = false;
+    boolean ifPass = false;
+    boolean ifPoint = false;
 
     private LinkedList list;
     private Node it;
@@ -87,6 +89,9 @@ public class MainActivity extends Activity
 
         list = new LinkedList();
         it = list.getLast();
+
+        subEdit.setText("");
+        edit.setText("");
     }
 
     public void onClick(View v)
@@ -103,6 +108,20 @@ public class MainActivity extends Activity
 
             isThere = false;
         }
+
+        if((it.getPrev() != null) && ifPass)
+        {
+            value = MULT;
+            subEdit.setText(subEdit.getText() + opSet[value]);
+
+            list.addNode();
+            it = it.getNext();
+            it.setCalcOp(value);
+
+            ifPass = false;
+        }
+
+        if(ifPoint) it.setPoint(it.getPoint() + 1);
 
         switch (v.getId())
         {
@@ -165,6 +184,15 @@ public class MainActivity extends Activity
                 subEdit.setText(subEdit.getText() + "9");
 
                 break;
+
+            case R.id.btn_point:
+                if(!ifPoint)
+                {
+                    ifPoint = true;
+                    subEdit.setText(subEdit.getText() + ".");
+                }
+
+                break;
         }
     }
 
@@ -186,6 +214,7 @@ public class MainActivity extends Activity
                 it.setPrintData(data);
 
                 isThere = false;
+                ifPoint = false;
             }
 
             switch (v.getId()) {
@@ -199,6 +228,8 @@ public class MainActivity extends Activity
                     edit.setText("");
 
                     isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
 
                     break;
 
@@ -212,6 +243,8 @@ public class MainActivity extends Activity
                     edit.setText("");
 
                     isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
 
                     break;
 
@@ -225,6 +258,8 @@ public class MainActivity extends Activity
                     edit.setText("");
 
                     isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
 
                     break;
 
@@ -238,6 +273,8 @@ public class MainActivity extends Activity
                     edit.setText("");
 
                     isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
 
                 break;
 
@@ -248,7 +285,6 @@ public class MainActivity extends Activity
                     edit.setText(list.doCalc() + "");
                     list.restore();
 
-                    it.setPrintOp(value);
                     isThere = true;
 
                     break;
@@ -276,10 +312,12 @@ public class MainActivity extends Activity
                 subEdit.setText(data + "");
 
                 isThere = false;
+                ifPoint = false;
             }
 
             switch(v.getId())
             {
+                /*
                 case R.id.btn_lBrac:
                     it.setLBrac(it.getLBrac() + 1);
 
@@ -293,15 +331,29 @@ public class MainActivity extends Activity
                     subEdit.setText(subEdit.getText() + ")");
 
                     break;
-
+                */
                 case R.id.btn_squ:
+                    it.setFunc(powF);
+                    list.addNode();
+                    it = it.getNext();
+                    it.setCalcData(2);
+
+                    subEdit.setText(subEdit.getText() + "^2");
+
+                    ifPass = true;
 
                     break;
 
                 case R.id.btn_pow:
+                    it.setFunc(powF);
+                    list.addNode();
+                    it = it.getNext();
+
+                    subEdit.setText(subEdit.getText() + "^");
+
+                    ifPoint = false;
 
                     break;
-
             }
         }
     };
@@ -323,6 +375,7 @@ public class MainActivity extends Activity
                 it = list.getLast();
 
                 isThere = false;
+                ifPoint = false;
             }
 
             switch(v.getId())
@@ -331,17 +384,20 @@ public class MainActivity extends Activity
                     if((list.getLen() != 1) || (it.getPrintData() != 0))
                     {
                         value = MULT;
-                        it.setPrintOp(value);
 
                         subEdit.setText(list.print() + opSet[value]);
                         edit.setText("");
 
                         list.addNode();
+                        it.setPrintOp(value);
                         it = it.getNext();
                     }
 
                     it.setFunc(sinF);
+                    list.addNode();
                     subEdit.setText(subEdit.getText() + "sin");
+
+                    ifPoint = false;
 
                     break;
 
@@ -349,17 +405,22 @@ public class MainActivity extends Activity
                     if((list.getLen() != 1) || (it.getPrintData() != 0))
                     {
                         value = MULT;
-                        it.setPrintOp(value);
+
+                        subEdit.setText(list.print() + opSet[value]);
 
                         subEdit.setText(list.print() + opSet[value]);
                         edit.setText("");
 
                         list.addNode();
+                        it.setPrintOp(value);
                         it = it.getNext();
                     }
 
                     it.setFunc(cosF);
+                    list.addNode();
                     subEdit.setText(subEdit.getText() + "cos");
+
+                    ifPoint = false;
 
                     break;
 
@@ -373,19 +434,35 @@ public class MainActivity extends Activity
                         edit.setText("");
 
                         list.addNode();
+                        it.setPrintOp(value);
                         it = it.getNext();
                     }
 
                     it.setFunc(tanF);
+                    list.addNode();
                     subEdit.setText(subEdit.getText() + "tan");
+
+                    ifPoint = false;
 
                     break;
 
                 case R.id.btn_pi:
-                    if(it.getPrintData() == 0) it.setPrintData(Math.PI);
-                    else it.setPrintData(it.getPrintData() * Math.PI);
+                    if(it.getPrintData() != 0)
+                    {
+                        value = MULT;
+                        subEdit.setText(subEdit.getText() + opSet[value]);
+
+                        list.addNode();
+                        it = it.getNext();
+                        it.setCalcOp(value);
+                    }
+
+                    it.setPrintData(Math.PI);
 
                     subEdit.setText(subEdit.getText() + "π");
+
+                    ifPass = true;
+                    ifPoint = false;
 
                     break;
 
@@ -414,6 +491,9 @@ public class MainActivity extends Activity
             list.setDeg(false);
             it = list.getLast();
             it.setPrintOp(NOT_AN_OPERATOR);
+            isThere = false;
+            ifPass = false;
+            ifPoint = false;
         }
     };
 }

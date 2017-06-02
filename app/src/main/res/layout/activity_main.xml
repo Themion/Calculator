@@ -36,6 +36,13 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/btn_C"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="C" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -238,19 +245,20 @@
             android:weightSum="4">
 
             <Button
+                android:id="@+id/btn_point"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="." />
+
+            <Button
                 android:id="@+id/btn_0"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onClick"
                 android:text="0" />
-
-            <Button
-                android:id="@+id/btn_C"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="C" />
 
             <Button
                 android:id="@+id/btn_equ"
