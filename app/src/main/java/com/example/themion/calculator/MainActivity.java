@@ -317,7 +317,7 @@ public class MainActivity extends Activity
 
             switch(v.getId())
             {
-                /*
+
                 case R.id.btn_lBrac:
                     it.setLBrac(it.getLBrac() + 1);
 
@@ -331,7 +331,7 @@ public class MainActivity extends Activity
                     subEdit.setText(subEdit.getText() + ")");
 
                     break;
-                */
+
                 case R.id.btn_squ:
                     it.setFunc(powF);
                     list.addNode();

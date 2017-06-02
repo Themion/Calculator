@@ -80,7 +80,7 @@ public class LinkedList
     {
         this.dataCalc = 0;
 
-        Node it =/* this.first, lB = new Node(), rB = new Node();
+        Node it = this.first, lB = new Node(), rB = new Node();
         LinkedList temp = new LinkedList();
         int tmplen = 1, bracCount = 0;
 
@@ -124,7 +124,7 @@ public class LinkedList
             it = it.getNext();
         }
 
-        it =*/ new Node();
+        it = new Node();
         it.setNext(this.first);
 
         while(it != this.getLast())
