@@ -13,8 +13,9 @@ public class MainActivity extends Activity
     final int SUB = 1;
     final int MULT = 2;
     final int DIV = 3;
-    final int EQU = 4;
-    final String[] opSet = {" + ", " - ", " × ", " ÷ ", " = "};
+    final int POW = 4;
+    final int EQU = 5;
+    final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
 
     final int noBrac = 0;
     final int isBrac = 1;
@@ -25,7 +26,8 @@ public class MainActivity extends Activity
     final int sinF = 1;
     final int cosF = 2;
     final int tanF = 3;
-    final int powF = 4;
+
+    /*------------------------------------*/
 
     TextView edit, subEdit;
     Button C;
@@ -39,8 +41,10 @@ public class MainActivity extends Activity
     boolean ifPass = false;
     boolean ifPoint = false;
 
-    private LinkedList list;
+    private LinkedList list, temp = null;
     private Node it;
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,8 @@ public class MainActivity extends Activity
 
         edit = (TextView) findViewById(R.id.edit);
         subEdit = (TextView) findViewById(R.id.subEdit);
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
         add = (Button) findViewById(R.id.btn_add);
         sub = (Button) findViewById(R.id.btn_sub);
@@ -62,15 +68,19 @@ public class MainActivity extends Activity
         div.setOnClickListener(opLsn);
         equ.setOnClickListener(opLsn);
 
+ /*------------------------------------------------------------------------------------------------------------------------------*/
+
         lBrac = (Button) findViewById(R.id.btn_lBrac);
         rBrac = (Button) findViewById(R.id.btn_rBrac);
         squ = (Button) findViewById(R.id.btn_squ);
         pow = (Button) findViewById(R.id.btn_pow);
 
-        rBrac.setOnClickListener(cLsn);
         lBrac.setOnClickListener(cLsn);
+        rBrac.setOnClickListener(cLsn);
         squ.setOnClickListener(cLsn);
-        pow.setOnClickListener(cLsn);
+        pow.setOnClickListener(opLsn);
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
         sin = (Button) findViewById(R.id.btn_sin);
         cos = (Button) findViewById(R.id.btn_cos);
@@ -94,9 +104,11 @@ public class MainActivity extends Activity
         edit.setText("");
     }
 
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
     public void onClick(View v)
     {
-        it = list.getLast();
+        if(it.getNext() != null) it = it.getNext();
 
         if (isThere)
         {
@@ -196,6 +208,8 @@ public class MainActivity extends Activity
         }
     }
 
+//*------------------------------------------------------------------------------------------------------------------------------*/
+
     Button.OnClickListener opLsn = new Button.OnClickListener()
     {
         @Override
@@ -219,10 +233,11 @@ public class MainActivity extends Activity
 
             switch (v.getId()) {
                 case R.id.btn_add:
-                    list.addNode();
-
                     value = ADD;
                     it.setPrintOp(value);
+
+                    list.addNode();
+                    it = it.getNext();
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
@@ -234,10 +249,11 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_sub:
-                    list.addNode();
-
                     value = SUB;
                     it.setPrintOp(value);
+
+                    list.addNode();
+                    it = it.getNext();
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
@@ -249,10 +265,11 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_mult:
-                    list.addNode();
-
-                    value = MULT;
+                     value = MULT;
                     it.setPrintOp(value);
+
+                    list.addNode();
+                    it = it.getNext();
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
@@ -264,10 +281,11 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_div:
-                    list.addNode();
-
                     value = DIV;
                     it.setPrintOp(value);
+
+                    list.addNode();
+                    it = it.getNext();
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText("");
@@ -278,13 +296,27 @@ public class MainActivity extends Activity
 
                 break;
 
+                case R.id.btn_pow:
+                    value = POW;
+                    it.setPrintOp(value);
+
+                    list.addNode();
+                    it = it.getNext();
+
+                    subEdit.setText(subEdit.getText() + opSet[value]);
+                    edit.setText("");
+
+                    isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
+
+                    break;
+
                 case R.id.btn_equ:
                     value = EQU;
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText(list.doCalc() + "");
-                    list.restore();
-
                     isThere = true;
 
                     break;
@@ -292,13 +324,13 @@ public class MainActivity extends Activity
         }
     };
 
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
     Button.OnClickListener cLsn = new Button.OnClickListener()
     {
         @Override
         public void onClick(View v)
         {
-            it = list.getLast();
-
             if (isThere)
             {
                 double data = list.doCalc();
@@ -317,23 +349,32 @@ public class MainActivity extends Activity
 
             switch(v.getId())
             {
-
                 case R.id.btn_lBrac:
-                    it.setLBrac(it.getLBrac() + 1);
+                    it.setBracList(new LinkedList());
+                    it.getBracList().setMother(it);
+
+                    temp = list;
+                    list = it.getBracList();
+                    it = it.getBracList().getFirst();
 
                     subEdit.setText(subEdit.getText() + "(");
 
                     break;
 
                 case R.id.btn_rBrac:
-                    it.setRBrac(it.getRBrac() + 1);
+                    it = list.getMother();
+                    it.setPrintData(it.getBracList().doCalc());
+
+                    list = temp;
+                    temp = null;
 
                     subEdit.setText(subEdit.getText() + ")");
+                    ifPass = true;
 
                     break;
 
                 case R.id.btn_squ:
-                    it.setFunc(powF);
+                    it.setFunc(POW);
                     list.addNode();
                     it = it.getNext();
                     it.setCalcData(2);
@@ -341,16 +382,6 @@ public class MainActivity extends Activity
                     subEdit.setText(subEdit.getText() + "^2");
 
                     ifPass = true;
-
-                    break;
-
-                case R.id.btn_pow:
-                    it.setFunc(powF);
-                    list.addNode();
-                    it = it.getNext();
-
-                    subEdit.setText(subEdit.getText() + "^");
-
                     ifPoint = false;
 
                     break;
@@ -358,12 +389,13 @@ public class MainActivity extends Activity
         }
     };
 
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
     Button.OnClickListener fLsn = new Button.OnClickListener()
     {
         @Override
         public void onClick(View v)
         {
-            it = list.getLast();
 
             if (isThere)
             {
@@ -385,7 +417,7 @@ public class MainActivity extends Activity
                     {
                         value = MULT;
 
-                        subEdit.setText(list.print() + opSet[value]);
+                        subEdit.setText(subEdit.getText() + opSet[value]);
                         edit.setText("");
 
                         list.addNode();
@@ -394,7 +426,6 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(sinF);
-                    list.addNode();
                     subEdit.setText(subEdit.getText() + "sin");
 
                     ifPoint = false;
@@ -406,9 +437,7 @@ public class MainActivity extends Activity
                     {
                         value = MULT;
 
-                        subEdit.setText(list.print() + opSet[value]);
-
-                        subEdit.setText(list.print() + opSet[value]);
+                        subEdit.setText(subEdit.getText() + opSet[value]);
                         edit.setText("");
 
                         list.addNode();
@@ -417,7 +446,6 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(cosF);
-                    list.addNode();
                     subEdit.setText(subEdit.getText() + "cos");
 
                     ifPoint = false;
@@ -430,7 +458,7 @@ public class MainActivity extends Activity
                         value = MULT;
                         it.setPrintOp(value);
 
-                        subEdit.setText(list.print() + opSet[value]);
+                        subEdit.setText(subEdit.getText() + opSet[value]);
                         edit.setText("");
 
                         list.addNode();
@@ -439,7 +467,6 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(tanF);
-                    list.addNode();
                     subEdit.setText(subEdit.getText() + "tan");
 
                     ifPoint = false;
@@ -469,14 +496,16 @@ public class MainActivity extends Activity
                 case R.id.btn_deg:
                     list.setDeg(!list.getDeg());
 
-                    if(list.getDeg()) deg.setText("DEG");
-                    else deg.setText("RAD");
+                    if(list.getDeg()) deg.setText("Deg");
+                    else deg.setText("Rad");
 
                     break;
 
             }
         }
     };
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
     Button.OnClickListener cancelListener = new Button.OnClickListener()
     {

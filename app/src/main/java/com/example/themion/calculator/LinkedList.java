@@ -12,37 +12,45 @@ public class LinkedList
     final int noBrac = 0;
     final int isBrac = 1;
 
-    final int noCalc = 0;
-
     final int noFunc = 0;
     final int sinFunc = 1;
     final int cosFunc = 2;
     final int tanFunc = 3;
     final int powFunc = 4;
 
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
     private boolean ifDeg = false;
 
     private double dataCalc;
     private int len;
     private Node list;
-    private Node first, last;
+    private Node first, last, mother;
     private String[] opSet = {" + ", " - ", " × ", " ÷ ", " = "};
 
     LinkedList()
     {
         this.dataCalc = 0;
         this.len = 1;
+
         this.list = new Node();
         this.first = this.list;
         this.last = this.list;
+        this.mother = null;
     }
 
     int getLen() {return this.len;}
+    Node getFirst() {return this.first;}
     Node getLast() {return this.last;}
+    Node getMother() {return this.mother;}
     boolean getDeg() {return this.ifDeg;}
 
     void setLen(int len) {this.len = len;}
+    void setMother(Node mother) {this.mother = mother;}
     void setDeg(boolean ifDeg) {this.ifDeg = ifDeg;}
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
 /*
     node seek(int index)
     {
@@ -54,6 +62,7 @@ public class LinkedList
     }
 */
 
+/*------------------------------------------------------------------------------------------------------------------------------*/
     void addNode()
     {
         if(this.list == null)
@@ -62,7 +71,7 @@ public class LinkedList
             this.first = this.list;
             this.last = this.list;
 
-            this.first.setPrev(null);
+            this.getFirst().setPrev(null);
         }
 
         else
@@ -76,56 +85,24 @@ public class LinkedList
         this.len++;
     }
 
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
     double doCalc()
     {
         this.dataCalc = 0;
 
-        Node it = this.first, lB = new Node(), rB = new Node();
-        LinkedList temp = new LinkedList();
-        int tmplen = 1, bracCount = 0;
+        Node it = this.first;
 
         while(it != null)
         {
-            if(it.getLBrac() > 0)
-            {
-                bracCount += it.getLBrac();
-
-                if(bracCount == it.getLBrac())
-                {
-                    lB = it;
-                    tmplen = 1;
-
-                    temp.list = lB;
-                    temp.first = lB;
-                    temp.first.setLBrac(noBrac);
-                }
-            }
-
-            if(it.getRBrac() > 0)
-            {
-                bracCount -= it.getRBrac();
-
-                if(bracCount == 0)
-                {
-                    rB = it;
-
-                    temp.last = rB;
-                    temp.last.setRBrac(noBrac);
-                    temp.setLen(tmplen);
-                    tmplen = 1;
-
-                    it = lB.getNext().getPrev();
-                    it.setCalcData(temp.doCalc());
-                    it = rB.getPrev().getNext();
-                }
-            }
-
-            tmplen++;
+            it.setCalcData(it.getCalcData() * Math.pow(10, it.getPoint()));
             it = it.getNext();
         }
 
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
         it = new Node();
-        it.setNext(this.first);
+        it.setNext(this.getFirst());
 
         while(it != this.getLast())
         {
@@ -133,12 +110,9 @@ public class LinkedList
 
             it = it.getNext();
 
-            it.setPrintData(it.getPrintData() / Math.pow(10, it.getPoint()));
-
             switch(it.getFunc())
             {
                 case (sinFunc):
-                    it = it.getNext();
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -163,7 +137,6 @@ public class LinkedList
                     break;
 
                 case (cosFunc):
-                    it = it.getNext();
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -188,7 +161,6 @@ public class LinkedList
                     break;
 
                 case (tanFunc):
-                    it = it.getNext();
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -208,14 +180,10 @@ public class LinkedList
                     if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
 
                     break;
-
-                case (powFunc):
-                    it.getNext().setCalcData(Math.pow(it.getCalcData(), it.getNext().getCalcData()));
-                    it.setCalcData(0);
-
-                    break;
             }
         }
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
         if(this.len == 1)
         {
@@ -223,7 +191,27 @@ public class LinkedList
             return this.dataCalc;
         }
 
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
         it = this.first;
+
+        while(it != this.getLast())
+        {
+            switch(it.getCalcOp())
+            {
+                case (powFunc):
+                    it.getNext().setCalcData(Math.pow(it.getCalcData(), it.getNext().getCalcData()));
+                    it.setCalcData(0);
+
+                    break;
+            }
+
+            it = it.getNext();
+        }
+
+        it = this.first;
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
         while(it != this.getLast())
         {
@@ -246,6 +234,8 @@ public class LinkedList
 
             it = it.getNext();
         }
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
         it = this.first;
 
@@ -278,33 +268,5 @@ public class LinkedList
         return this.dataCalc;
     }
 
-    void restore()
-    {
-        Node it = this.first;
-
-        while(it != null)
-        {
-            it.setCalcData(it.getPrintData());
-            it.setCalcOp(it.getPrintOp());
-            it = it.getNext();
-        }
-    }
-
-    String print()
-    {
-        Node it = this.first;
-        String prt = "";
-
-        this.last.setPrintOp(EQU);
-
-        while(it.getNext() != null)
-        {
-            prt += "" +  it.getPrintData() + this.opSet[it.getPrintOp()];
-            it = it.getNext();
-        }
-
-        prt += "" + this.last.getPrintData();
-
-        return prt;
-    }
+/*------------------------------------------------------------------------------------------------------------------------------*/
 }
