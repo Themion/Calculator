@@ -97,7 +97,7 @@ public class LinkedList
 
         while(it != null)
         {
-            it.setCalcData(it.getCalcData() * Math.pow(10, it.getPoint()));
+            it.setCalcData(it.getCalcData() / Math.pow(10, it.getPoint()));
             it = it.getNext();
         }
 
