@@ -26,6 +26,8 @@ public class MainActivity extends Activity
     final int sinF = 1;
     final int cosF = 2;
     final int tanF = 3;
+    final int logF = 4;
+    final int lnF = 5;
 
     /*------------------------------------*/
 
@@ -33,7 +35,8 @@ public class MainActivity extends Activity
     Button C;
     Button add, sub, mult, div, equ;
     Button lBrac, rBrac, squ, pow;
-    Button sin, cos, tan, pi, deg;
+    Button log, ln, exp;
+    Button sin, cos, tan, deg;
 
     int value = NOT_AN_OPERATOR;
 
@@ -77,22 +80,30 @@ public class MainActivity extends Activity
 
         lBrac.setOnClickListener(cLsn);
         rBrac.setOnClickListener(cLsn);
-        squ.setOnClickListener(cLsn);
+        squ.setOnClickListener(fLsn);
         pow.setOnClickListener(opLsn);
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
+        log = (Button) findViewById(R.id.btn_log);
+        ln = (Button) findViewById(R.id.btn_ln);
+
+        log.setOnClickListener(fLsn);
+        ln.setOnClickListener(fLsn);
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
         sin = (Button) findViewById(R.id.btn_sin);
         cos = (Button) findViewById(R.id.btn_cos);
         tan = (Button) findViewById(R.id.btn_tan);
-        pi = (Button) findViewById(R.id.btn_pi);
         deg = (Button) findViewById(R.id.btn_deg);
 
         sin.setOnClickListener(fLsn);
         cos.setOnClickListener(fLsn);
         tan.setOnClickListener(fLsn);
-        pi.setOnClickListener(fLsn);
         deg.setOnClickListener(fLsn);
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
         C = (Button) findViewById(R.id.btn_C);
         C.setOnClickListener(cancelListener);
@@ -121,10 +132,11 @@ public class MainActivity extends Activity
             isThere = false;
         }
 
-        if((it.getPrev() != null) && ifPass)
+        if(ifPass)
         {
             value = MULT;
             subEdit.setText(subEdit.getText() + opSet[value]);
+            it.setCalcOp(value);
 
             list.addNode();
             it = it.getNext();
@@ -197,6 +209,48 @@ public class MainActivity extends Activity
 
                 break;
 
+            case R.id.btn_pi:
+                if(it.getPrintData() != 0)
+                {
+                    value = MULT;
+                    subEdit.setText(subEdit.getText() + opSet[value]);
+
+                    list.addNode();
+                    it = it.getNext();
+                    it.setCalcOp(value);
+                }
+
+                it.setPrintData(Math.E);
+
+                subEdit.setText(subEdit.getText() + "e");
+
+                isThere = false;
+                ifPass = true;
+                ifPoint = false;
+
+                break;
+
+            case R.id.btn_exp:
+                if(it.getPrintData() != 0)
+                {
+                    value = MULT;
+                    subEdit.setText(subEdit.getText() + opSet[value]);
+
+                    list.addNode();
+                    it = it.getNext();
+                    it.setCalcOp(value);
+                }
+
+                it.setPrintData(Math.E);
+
+                subEdit.setText(subEdit.getText() + "e");
+
+                isThere = false;
+                ifPass = true;
+                ifPoint = false;
+
+                break;
+
             case R.id.btn_point:
                 if(!ifPoint)
                 {
@@ -228,6 +282,7 @@ public class MainActivity extends Activity
                 it.setPrintData(data);
 
                 isThere = false;
+                ifPass = false;
                 ifPoint = false;
             }
 
@@ -317,7 +372,10 @@ public class MainActivity extends Activity
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
                     edit.setText(list.doCalc() + "");
+
                     isThere = true;
+                    ifPass = false;
+                    ifPoint = false;
 
                     break;
             }
@@ -344,12 +402,23 @@ public class MainActivity extends Activity
                 subEdit.setText(data + "");
 
                 isThere = false;
+                ifPass = false;
                 ifPoint = false;
             }
 
             switch(v.getId())
             {
                 case R.id.btn_lBrac:
+                    if(it.getPrintData() != 0)
+                    {
+                        value = MULT;
+                        subEdit.setText(subEdit.getText() + opSet[value]);
+
+                        it.setCalcOp(value);
+                        list.addNode();
+                        it = it.getNext();
+                    }
+
                     it.setBracList(new LinkedList());
                     it.getBracList().setMother(it);
 
@@ -358,6 +427,10 @@ public class MainActivity extends Activity
                     it = it.getBracList().getFirst();
 
                     subEdit.setText(subEdit.getText() + "(");
+
+                    isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
 
                     break;
 
@@ -369,18 +442,8 @@ public class MainActivity extends Activity
                     temp = null;
 
                     subEdit.setText(subEdit.getText() + ")");
-                    ifPass = true;
 
-                    break;
-
-                case R.id.btn_squ:
-                    it.setFunc(POW);
-                    list.addNode();
-                    it = it.getNext();
-                    it.setCalcData(2);
-
-                    subEdit.setText(subEdit.getText() + "^2");
-
+                    isThere = false;
                     ifPass = true;
                     ifPoint = false;
 
@@ -407,6 +470,7 @@ public class MainActivity extends Activity
                 it = list.getLast();
 
                 isThere = false;
+                ifPass = false;
                 ifPoint = false;
             }
 
@@ -428,6 +492,8 @@ public class MainActivity extends Activity
                     it.setFunc(sinF);
                     subEdit.setText(subEdit.getText() + "sin");
 
+                    isThere = false;
+                    ifPass = false;
                     ifPoint = false;
 
                     break;
@@ -448,6 +514,8 @@ public class MainActivity extends Activity
                     it.setFunc(cosF);
                     subEdit.setText(subEdit.getText() + "cos");
 
+                    isThere = false;
+                    ifPass = false;
                     ifPoint = false;
 
                     break;
@@ -469,26 +537,71 @@ public class MainActivity extends Activity
                     it.setFunc(tanF);
                     subEdit.setText(subEdit.getText() + "tan");
 
+                    isThere = false;
+                    ifPass = false;
                     ifPoint = false;
 
                     break;
 
-                case R.id.btn_pi:
-                    if(it.getPrintData() != 0)
+                case R.id.btn_squ:
+                    value = POW;
+                    it.setPrintOp(value);
+
+                    list.addNode();
+                    it = it.getNext();
+                    it.setPrintData(2);
+
+                    subEdit.setText(subEdit.getText() + opSet[value] + "2");
+                    edit.setText("");
+
+                    isThere = false;
+                    ifPass = true;
+                    ifPoint = false;
+
+                    break;
+
+                case R.id.btn_log:
+                    if((list.getLen() != 1) || (it.getPrintData() != 0))
                     {
                         value = MULT;
+                        it.setPrintOp(value);
+
                         subEdit.setText(subEdit.getText() + opSet[value]);
+                        edit.setText("");
 
                         list.addNode();
+                        it.setPrintOp(value);
                         it = it.getNext();
-                        it.setCalcOp(value);
                     }
 
-                    it.setPrintData(Math.PI);
+                    it.setFunc(logF);
+                    subEdit.setText(subEdit.getText() + "log");
 
-                    subEdit.setText(subEdit.getText() + "π");
+                    isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
 
-                    ifPass = true;
+                    break;
+
+                case R.id.btn_ln:
+                    if((list.getLen() != 1) || (it.getPrintData() != 0))
+                    {
+                        value = MULT;
+                        it.setPrintOp(value);
+
+                        subEdit.setText(subEdit.getText() + opSet[value]);
+                        edit.setText("");
+
+                        list.addNode();
+                        it.setPrintOp(value);
+                        it = it.getNext();
+                    }
+
+                    it.setFunc(lnF);
+                    subEdit.setText(subEdit.getText() + "ln");
+
+                    isThere = false;
+                    ifPass = false;
                     ifPoint = false;
 
                     break;
@@ -520,6 +633,7 @@ public class MainActivity extends Activity
             list.setDeg(false);
             it = list.getLast();
             it.setPrintOp(NOT_AN_OPERATOR);
+
             isThere = false;
             ifPass = false;
             ifPoint = false;

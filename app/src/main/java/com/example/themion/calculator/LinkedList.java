@@ -7,7 +7,9 @@ public class LinkedList
     final int SUB = 1;
     final int MULT = 2;
     final int DIV = 3;
-    final int EQU = 4;
+    final int POW = 4;
+    final int EQU = 5;
+    final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
 
     final int noBrac = 0;
     final int isBrac = 1;
@@ -16,7 +18,8 @@ public class LinkedList
     final int sinFunc = 1;
     final int cosFunc = 2;
     final int tanFunc = 3;
-    final int powFunc = 4;
+    final int logFunc = 4;
+    final int lnFunc = 5;
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -26,7 +29,6 @@ public class LinkedList
     private int len;
     private Node list;
     private Node first, last, mother;
-    private String[] opSet = {" + ", " - ", " × ", " ÷ ", " = "};
 
     LinkedList()
     {
@@ -45,7 +47,7 @@ public class LinkedList
     Node getMother() {return this.mother;}
     boolean getDeg() {return this.ifDeg;}
 
-    void setLen(int len) {this.len = len;}
+    //void setLen(int len) {this.len = len;}
     void setMother(Node mother) {this.mother = mother;}
     void setDeg(boolean ifDeg) {this.ifDeg = ifDeg;}
 
@@ -180,6 +182,18 @@ public class LinkedList
                     if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
 
                     break;
+
+                case (logFunc):
+                    if(it.getCalcData() > 0)
+                        it.setCalcData(Math.log10(it.getCalcData()));
+
+                    break;
+
+                case (lnFunc):
+                    if(it.getCalcData() > 0)
+                        it.setCalcData(Math.log(it.getCalcData()));
+
+                    break;
             }
         }
 
@@ -199,8 +213,9 @@ public class LinkedList
         {
             switch(it.getCalcOp())
             {
-                case (powFunc):
+                case (POW):
                     it.getNext().setCalcData(Math.pow(it.getCalcData(), it.getNext().getCalcData()));
+                    it.setCalcOp(ADD);
                     it.setCalcData(0);
 
                     break;
