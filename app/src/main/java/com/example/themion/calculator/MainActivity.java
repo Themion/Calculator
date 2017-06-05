@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.Intent;
 
 public class MainActivity extends Activity
 {
@@ -32,10 +33,11 @@ public class MainActivity extends Activity
     /*------------------------------------*/
 
     TextView edit, subEdit;
+
     Button C;
     Button add, sub, mult, div, equ;
     Button lBrac, rBrac, squ, pow;
-    Button log, ln, exp;
+    Button log, ln;
     Button sin, cos, tan, deg;
 
     int value = NOT_AN_OPERATOR;
@@ -53,6 +55,8 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, MenuActivity.class);
 
         edit = (TextView) findViewById(R.id.edit);
         subEdit = (TextView) findViewById(R.id.subEdit);
@@ -119,6 +123,9 @@ public class MainActivity extends Activity
 
     public void onClick(View v)
     {
+        Intent intent = new Intent(this, MenuActivity.class);
+        if(v.getId() == R.id.btn_menu) startActivity(intent);
+
         if(it.getNext() != null) it = it.getNext();
 
         if (isThere)

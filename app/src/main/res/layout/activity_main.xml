@@ -36,11 +36,22 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
+
+        <Button
+            android:id="@+id/btn_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:onClick="onClick"
+            android:text="Menu"
+            android:textAllCaps="false" />
+
         <Button
             android:id="@+id/btn_C"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:onClick="onClick"
             android:text="C" />
 
         <LinearLayout
@@ -53,45 +64,45 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAllCaps="false"
                 android:onClick="onClick"
-                android:text="sin" />
+                android:text="sin"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_cos"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAllCaps="false"
                 android:onClick="onClick"
-                android:text="cos" />
+                android:text="cos"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_tan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAllCaps="false"
                 android:onClick="onClick"
-                android:text="tan" />
+                android:text="tan"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_pi"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAllCaps="false"
                 android:onClick="onClick"
-                android:text="π" />
+                android:text="π"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_deg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAllCaps="false"
                 android:onClick="onClick"
-                android:text="Rad" />
+                android:text="Rad"
+                android:textAllCaps="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -120,9 +131,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:textAllCaps="false"
                 android:onClick="onClick"
-                android:text="n²" />
+                android:text="n²"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_pow"
@@ -130,8 +141,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:onClick="onClick"
-                android:textAllCaps="false"
-                android:text="mⁿ" />
+                android:text="mⁿ"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_exp"
@@ -139,8 +150,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:onClick="onClick"
-                android:textAllCaps="false"
-                android:text="e" />
+                android:text="e"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_log"
@@ -148,8 +159,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:onClick="onClick"
-                android:textAllCaps="false"
-                android:text="log" />
+                android:text="log"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_ln"
@@ -157,8 +168,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:onClick="onClick"
-                android:textAllCaps="false"
-                android:text="ln" />
+                android:text="ln"
+                android:textAllCaps="false" />
         </LinearLayout>
 
 
