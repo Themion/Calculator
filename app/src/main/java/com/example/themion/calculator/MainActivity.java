@@ -1,6 +1,7 @@
 package com.example.themion.calculator;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -123,9 +124,6 @@ public class MainActivity extends Activity
 
     public void onClick(View v)
     {
-        Intent intent = new Intent(this, MenuActivity.class);
-        if(v.getId() == R.id.btn_menu) startActivity(intent);
-
         if(it.getNext() != null) it = it.getNext();
 
         if (isThere)
@@ -156,6 +154,13 @@ public class MainActivity extends Activity
 
         switch (v.getId())
         {
+            case R.id.btn_link:
+                Intent link = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mathway.com/ko/FiniteMath"));
+                link.addCategory(Intent.CATEGORY_BROWSABLE);
+                startActivity(link);
+
+                break;
+
             case R.id.btn_0:
                 it.setPrintData(it.getPrintData() * 10 + 0);
                 subEdit.setText(subEdit.getText() + "0");
