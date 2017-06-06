@@ -57,8 +57,6 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, MenuActivity.class);
-
         edit = (TextView) findViewById(R.id.edit);
         subEdit = (TextView) findViewById(R.id.subEdit);
 
@@ -154,7 +152,7 @@ public class MainActivity extends Activity
 
         switch (v.getId())
         {
-            case R.id.btn_link:
+            case R.id.btn_help:
                 Intent link = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mathway.com/ko/FiniteMath"));
                 link.addCategory(Intent.CATEGORY_BROWSABLE);
                 startActivity(link);
@@ -285,7 +283,7 @@ public class MainActivity extends Activity
 
             if (isThere)
             {
-                double data = list.doCalc();
+                double data = Double.parseDouble(edit.getText().toString());
                 subEdit.setText("" + data);
                 edit.setText("");
 
