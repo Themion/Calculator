@@ -70,6 +70,7 @@ public class LinkedList
         if(this.list == null)
         {
             this.list = new Node();
+            this.list.setMotherList(this);
             this.first = this.list;
             this.last = this.list;
 
@@ -81,6 +82,7 @@ public class LinkedList
             this.last.setNext(new Node());
             this.last.getNext().setPrev(this.last);
             this.last = this.last.getNext();
+            this.last.setMotherList(this);
         }
 
         this.last.setNext(null);

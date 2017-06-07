@@ -47,7 +47,9 @@ public class MainActivity extends Activity
     boolean ifPass = false;
     boolean ifPoint = false;
 
-    private LinkedList list, temp = null;
+    String temp = "";
+
+    private LinkedList list;
     private Node it;
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
@@ -271,23 +273,19 @@ public class MainActivity extends Activity
                 }
 
             case R.id.btn_pm:
-                if((it.getPrintData() != 0) || (list.getMother() != null)) break;
+                if(it.getPrintData() != 0) break;
 
                 if(!it.getPM())
                 {
                     it.setPM(true);
-                    subEdit.setText(subEdit.getText() + "-(");
+                    temp = subEdit.getText().toString();
+                    subEdit.setText(subEdit.getText() + "-");
+                }
 
-                    it.setBracList(new LinkedList());
-                    it.getBracList().setMother(it);
-
-                    temp = list;
-                    list = it.getBracList();
-                    it = it.getBracList().getFirst();
-
-                    isThere = false;
-                    ifPass = false;
-                    ifPoint = false;
+                else
+                {
+                    it.setPM(false);
+                    subEdit.setText(temp);
                 }
 
                 break;
@@ -405,9 +403,7 @@ public class MainActivity extends Activity
                         it = list.getMother();
                         it.setPrintData(it.getBracList().doCalc());
 
-                        list = temp;
-                        temp = null;
-
+                        list = it.getMotherList();
                         subEdit.setText(subEdit.getText() + ")");
                     }
 
@@ -464,8 +460,8 @@ public class MainActivity extends Activity
 
                     it.setBracList(new LinkedList());
                     it.getBracList().setMother(it);
+                    it.setMotherList(list);
 
-                    temp = list;
                     list = it.getBracList();
                     it = it.getBracList().getFirst();
 
@@ -481,8 +477,7 @@ public class MainActivity extends Activity
                     it = list.getMother();
                     it.setPrintData(it.getBracList().doCalc());
 
-                    list = temp;
-                    temp = null;
+                    list = it.getMotherList();
 
                     subEdit.setText(subEdit.getText() + ")");
 
