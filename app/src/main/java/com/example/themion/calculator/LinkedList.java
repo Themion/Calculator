@@ -101,6 +101,14 @@ public class LinkedList
             it = it.getNext();
         }
 
+        it = this.first;
+
+        while(it != null)
+        {
+            if(it.getPM()) it.setCalcData(it.getCalcData() * (-1));
+            it = it.getNext();
+        }
+
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
         it = new Node();

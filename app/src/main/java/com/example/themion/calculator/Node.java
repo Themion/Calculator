@@ -26,11 +26,10 @@ public class Node {
 
     private int calcOp;
     private int printOp;
-
     private int point;
-
-    private int lBrac, rBrac;
     private int func;
+
+    private boolean pm;
 
     private Node prev;
     private Node next;
@@ -46,12 +45,10 @@ public class Node {
 
         this.printOp = NOT_AN_OPERATOR;
         this.calcOp = NOT_AN_OPERATOR;
-
         this.point = 0;
-
-        this.lBrac = noBrac;
-        this.rBrac = noBrac;
         this.func = noFunc;
+
+        this.pm = false;
 
         this.prev = null;
         this.next = null;
@@ -66,12 +63,10 @@ public class Node {
 
     int getPrintOp() {return this.printOp;}
     int getCalcOp() {return this.calcOp;}
-
     int getPoint() {return this.point;}
-
-    int getLBrac() {return this.lBrac;}
-    int getRBrac() {return this.rBrac;}
     int getFunc() {return this.func;}
+
+    boolean getPM() {return this.pm;}
 
     Node getPrev() {return this.prev;}
     Node getNext() {return this.next;}
@@ -85,12 +80,10 @@ public class Node {
 
     void setPrintOp(int printOp) {this.printOp = printOp; this.calcOp = printOp;}
     void setCalcOp(int calcOp) {this.calcOp = calcOp;}
-
     void setPoint(int point) {this.point = point;}
-
-    void setLBrac(int lBrac) {this.lBrac = lBrac;}
-    void setRBrac(int rBrac) {this.rBrac = rBrac;}
     void setFunc(int func) {this.func = func;}
+
+    void setPM(boolean pm) {this.pm = pm;}
 
     void setNext(Node next) {this.next = next;}
     void setPrev(Node prev) {this.prev = prev;}
