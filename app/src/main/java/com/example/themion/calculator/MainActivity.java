@@ -277,18 +277,32 @@ public class MainActivity extends Activity
 
                 if(!it.getPM())
                 {
+                    it.setBracList(new LinkedList());
+                    it.getBracList().setMother(it);
+                    it.setMotherList(list);
+
+                    list = it.getBracList();
+                    it = it.getBracList().getFirst();
+
                     it.setPM(true);
                     temp = subEdit.getText().toString();
                     subEdit.setText(subEdit.getText() + "(-");
+
+                    break;
                 }
 
                 else
                 {
+                    it = list.getMother();
+                    it.setPrintData(it.getBracList().doCalc());
+
+                    list = it.getMotherList();
+
                     it.setPM(false);
                     subEdit.setText(temp);
-                }
 
-                break;
+                    break;
+                }
         }
     }
 
