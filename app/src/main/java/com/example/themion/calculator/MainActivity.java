@@ -46,7 +46,6 @@ public class MainActivity extends Activity
     boolean isThere = false;
     boolean ifPass = false;
     boolean ifPoint = false;
-    boolean ifMinus = false;
 
     private LinkedList list, temp = null;
     private Node it;
@@ -136,7 +135,6 @@ public class MainActivity extends Activity
             isThere = false;
             ifPass = false;
             ifPoint = false;
-            ifMinus = false;
         }
 
         if(ifPass)
@@ -241,7 +239,6 @@ public class MainActivity extends Activity
                 isThere = false;
                 ifPass = true;
                 ifPoint = false;
-                ifMinus = false;
 
                 break;
 
@@ -263,7 +260,6 @@ public class MainActivity extends Activity
                 isThere = false;
                 ifPass = true;
                 ifPoint = false;
-                ifMinus = false;
 
                 break;
 
@@ -275,16 +271,35 @@ public class MainActivity extends Activity
                 }
 
             case R.id.btn_pm:
-                if(!ifMinus)
+                if(it.getPrintData() != 0) break;
+
+                if(!it.getPM())
                 {
                     it.setPM(true);
-                    subEdit.setText(subEdit.getText() + "-");
+                    subEdit.setText(subEdit.getText() + "-(");
+
+                    it.setBracList(new LinkedList());
+                    it.getBracList().setMother(it);
+
+                    temp = list;
+                    list = it.getBracList();
+                    it = it.getBracList().getFirst();
+
+                    isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
                 }
 
                 else
                 {
                     it.setPM(false);
-                    subEdit.setText(subEdit.getText() + "+");
+                    subEdit.setText(subEdit.getText().toString().substring(0, subEdit.getText().toString().length() - "-(".length()));
+
+                    it = list.getMother();
+                    it.setBracList(null);
+
+                    list = temp;
+                    temp = null;
                 }
 
                 break;
@@ -313,7 +328,6 @@ public class MainActivity extends Activity
                 isThere = false;
                 ifPass = false;
                 ifPoint = false;
-                ifMinus = false;
             }
 
             switch (v.getId()) {
@@ -330,7 +344,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -347,7 +360,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -364,7 +376,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -381,7 +392,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                 break;
 
@@ -398,11 +408,21 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
                 case R.id.btn_equ:
+                    while(list.getMother() != null)
+                    {
+                        it = list.getMother();
+                        it.setPrintData(it.getBracList().doCalc());
+
+                        list = temp;
+                        temp = null;
+
+                        subEdit.setText(subEdit.getText() + ")");
+                    }
+
                     value = EQU;
 
                     subEdit.setText(subEdit.getText() + opSet[value]);
@@ -411,7 +431,6 @@ public class MainActivity extends Activity
                     isThere = true;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
             }
@@ -440,7 +459,6 @@ public class MainActivity extends Activity
                 isThere = false;
                 ifPass = false;
                 ifPoint = false;
-                ifMinus = false;
             }
 
             switch(v.getId())
@@ -468,7 +486,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -484,7 +501,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = true;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
             }
@@ -511,7 +527,6 @@ public class MainActivity extends Activity
                 isThere = false;
                 ifPass = false;
                 ifPoint = false;
-                ifMinus = false;
             }
 
             switch(v.getId())
@@ -535,7 +550,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -558,7 +572,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -582,7 +595,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -600,7 +612,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = true;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -624,7 +635,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -648,7 +658,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                    ifMinus = false;
 
                     break;
 
@@ -683,7 +692,6 @@ public class MainActivity extends Activity
             isThere = false;
             ifPass = false;
             ifPoint = false;
-            ifMinus = false;
         }
     };
 }
