@@ -271,7 +271,7 @@ public class MainActivity extends Activity
                 }
 
             case R.id.btn_pm:
-                if(it.getPrintData() != 0) break;
+                if((it.getPrintData() != 0) || (list.getMother() != null)) break;
 
                 if(!it.getPM())
                 {
@@ -288,18 +288,6 @@ public class MainActivity extends Activity
                     isThere = false;
                     ifPass = false;
                     ifPoint = false;
-                }
-
-                else
-                {
-                    it.setPM(false);
-                    subEdit.setText(subEdit.getText().toString().substring(0, subEdit.getText().toString().length() - "-(".length()));
-
-                    it = list.getMother();
-                    it.setBracList(null);
-
-                    list = temp;
-                    temp = null;
                 }
 
                 break;
