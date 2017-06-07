@@ -234,9 +234,9 @@ public class MainActivity extends Activity
                     it.setCalcOp(value);
                 }
 
-                it.setPrintData(Math.E);
+                it.setPrintData(Math.PI);
 
-                subEdit.setText(subEdit.getText() + "e");
+                subEdit.setText(subEdit.getText() + "π");
 
                 isThere = false;
                 ifPass = true;
@@ -279,7 +279,7 @@ public class MainActivity extends Activity
                 {
                     it.setPM(true);
                     temp = subEdit.getText().toString();
-                    subEdit.setText(subEdit.getText() + "-");
+                    subEdit.setText(subEdit.getText() + "(-");
                 }
 
                 else
@@ -304,7 +304,8 @@ public class MainActivity extends Activity
             if (isThere)
             {
                 double data = Double.parseDouble(edit.getText().toString());
-                subEdit.setText("" + data);
+
+                subEdit.setText(data + "");
                 edit.setText("");
 
                 list = new LinkedList();
@@ -316,7 +317,8 @@ public class MainActivity extends Activity
                 ifPoint = false;
             }
 
-            switch (v.getId()) {
+            switch (v.getId())
+            {
                 case R.id.btn_add:
                     value = ADD;
                     it.setPrintOp(value);
@@ -430,15 +432,14 @@ public class MainActivity extends Activity
         {
             if (isThere)
             {
-                double data = list.doCalc();
-                subEdit.setText("");
+                double data = Double.parseDouble(edit.getText().toString());
+
+                subEdit.setText(data + "");
                 edit.setText("");
 
                 list = new LinkedList();
                 it = list.getLast();
-
                 it.setPrintData(data);
-                subEdit.setText(data + "");
 
                 isThere = false;
                 ifPass = false;
@@ -474,6 +475,8 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_rBrac:
+                    if(list.getMother() == null) break;
+
                     it = list.getMother();
                     it.setPrintData(it.getBracList().doCalc());
 
@@ -500,12 +503,14 @@ public class MainActivity extends Activity
 
             if (isThere)
             {
-                double data = list.doCalc();
-                subEdit.setText("");
+                double data = Double.parseDouble(edit.getText().toString());
+
+                subEdit.setText(data + "");
                 edit.setText("");
 
                 list = new LinkedList();
                 it = list.getLast();
+                it.setPrintData(data);
 
                 isThere = false;
                 ifPass = false;
@@ -528,7 +533,14 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(sinF);
-                    subEdit.setText(subEdit.getText() + "sin");
+                    it.setBracList(new LinkedList());
+                    it.getBracList().setMother(it);
+                    it.setMotherList(list);
+
+                    list = it.getBracList();
+                    it = it.getBracList().getFirst();
+
+                    subEdit.setText(subEdit.getText() + "sin(");
 
                     isThere = false;
                     ifPass = false;
@@ -550,7 +562,14 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(cosF);
-                    subEdit.setText(subEdit.getText() + "cos");
+                    it.setBracList(new LinkedList());
+                    it.getBracList().setMother(it);
+                    it.setMotherList(list);
+
+                    list = it.getBracList();
+                    it = it.getBracList().getFirst();
+
+                    subEdit.setText(subEdit.getText() + "cos(");
 
                     isThere = false;
                     ifPass = false;
@@ -573,7 +592,14 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(tanF);
-                    subEdit.setText(subEdit.getText() + "tan");
+                    it.setBracList(new LinkedList());
+                    it.getBracList().setMother(it);
+                    it.setMotherList(list);
+
+                    list = it.getBracList();
+                    it = it.getBracList().getFirst();
+
+                    subEdit.setText(subEdit.getText() + "tan(");
 
                     isThere = false;
                     ifPass = false;
@@ -613,7 +639,15 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(logF);
-                    subEdit.setText(subEdit.getText() + "log");
+                    it.setBracList(new LinkedList());
+                    it.getBracList().setMother(it);
+                    it.setMotherList(list);
+
+                    list = it.getBracList();
+                    it = it.getBracList().getFirst();
+
+
+                    subEdit.setText(subEdit.getText() + "log(");
 
                     isThere = false;
                     ifPass = false;
@@ -636,7 +670,15 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(lnF);
-                    subEdit.setText(subEdit.getText() + "ln");
+                    it.setBracList(new LinkedList());
+                    it.getBracList().setMother(it);
+                    it.setMotherList(list);
+
+                    list = it.getBracList();
+                    it = it.getBracList().getFirst();
+
+
+                    subEdit.setText(subEdit.getText() + "ln(");
 
                     isThere = false;
                     ifPass = false;
