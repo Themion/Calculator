@@ -7,17 +7,7 @@ package com.example.themion.calculator;
 public class Node {
     final int NOT_AN_OPERATOR = -1;
 
-    final int noBrac = 0;
-    final int isBrac = 1;
-
-    final int noCalc = 0;
-    final int squCalc = 1;
-    final int powCalc = 2;
-
     final int noFunc = 0;
-    final int sinFunc = 1;
-    final int cosFunc = 2;
-    final int tanFunc = 3;
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -30,10 +20,9 @@ public class Node {
     private int func;
 
     private boolean pm;
+    private boolean hit;
 
-    private Node prev;
     private Node next;
-
     private LinkedList motherList;
     private LinkedList bracList;
 
@@ -50,10 +39,9 @@ public class Node {
         this.func = noFunc;
 
         this.pm = false;
+        this.hit = false;
 
-        this.prev = null;
         this.next = null;
-
         this.motherList = null;
         this.bracList = null;
     }
@@ -69,10 +57,9 @@ public class Node {
     int getFunc() {return this.func;}
 
     boolean getPM() {return this.pm;}
+    boolean getHit() {return this.hit;}
 
-    Node getPrev() {return this.prev;}
     Node getNext() {return this.next;}
-
     LinkedList getMotherList() {return this.motherList;}
     LinkedList getBracList() {return this.bracList;}
 
@@ -87,19 +74,9 @@ public class Node {
     void setFunc(int func) {this.func = func;}
 
     void setPM(boolean pm) {this.pm = pm;}
+    void setHit(boolean hit) {this.hit = hit;}
 
     void setNext(Node next) {this.next = next;}
-    void setPrev(Node prev) {this.prev = prev;}
-
     void setMotherList(LinkedList motherList) {this.motherList = motherList;}
     void setBracList(LinkedList bracList) {this.bracList = bracList;}
-
-/*------------------------------------------------------------------------------------------------------------------------------*/
-/*
-        node seek(int input)
-        {
-            if(input == 0) return this;
-            else return this.next.seek(input - 1);
-        }
-        */
 }

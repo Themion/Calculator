@@ -10,7 +10,6 @@ import android.content.Intent;
 
 public class MainActivity extends Activity
 {
-    final int NOT_AN_OPERATOR = -1;
     final int ADD = 0;
     final int SUB = 1;
     final int MULT = 2;
@@ -19,12 +18,6 @@ public class MainActivity extends Activity
     final int EQU = 5;
     final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
 
-    final int noBrac = 0;
-    final int isBrac = 1;
-
-    final int noCalc = 0;
-
-    final int noF = 0;
     final int sinF = 1;
     final int cosF = 2;
     final int tanF = 3;
@@ -40,8 +33,6 @@ public class MainActivity extends Activity
     Button lBrac, rBrac, squ, pow;
     Button log, ln;
     Button sin, cos, tan, deg;
-
-    int value = NOT_AN_OPERATOR;
 
     boolean isThere = false;
     boolean ifPass = false;
@@ -141,13 +132,12 @@ public class MainActivity extends Activity
 
         if(ifPass)
         {
-            value = MULT;
-            subEdit.setText(subEdit.getText() + opSet[value]);
-            it.setCalcOp(value);
+            subEdit.setText(subEdit.getText() + opSet[MULT]);
+            it.setCalcOp(MULT);
 
             list.addNode();
             it = it.getNext();
-            it.setCalcOp(value);
+            it.setCalcOp(MULT);
 
             ifPass = false;
         }
@@ -166,106 +156,76 @@ public class MainActivity extends Activity
             case R.id.btn_0:
                 it.setPrintData(it.getPrintData() * 10 + 0);
                 subEdit.setText(subEdit.getText() + "0");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_1:
                 it.setPrintData(it.getPrintData() * 10 + 1);
                 subEdit.setText(subEdit.getText() + "1");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_2:
                 it.setPrintData(it.getPrintData() * 10 + 2);
                 subEdit.setText(subEdit.getText() + "2");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_3:
                 it.setPrintData(it.getPrintData() * 10 + 3);
                 subEdit.setText(subEdit.getText() + "3");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_4:
                 it.setPrintData(it.getPrintData() * 10 + 4);
                 subEdit.setText(subEdit.getText() + "4");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_5:
                 it.setPrintData(it.getPrintData() * 10 + 5);
                 subEdit.setText(subEdit.getText() + "5");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_6:
                 it.setPrintData(it.getPrintData() * 10 + 6);
                 subEdit.setText(subEdit.getText() + "6");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_7:
                 it.setPrintData(it.getPrintData() * 10 + 7);
                 subEdit.setText(subEdit.getText() + "7");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_8:
                 it.setPrintData(it.getPrintData() * 10 + 8);
                 subEdit.setText(subEdit.getText() + "8");
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_9:
                 it.setPrintData(it.getPrintData() * 10 + 9);
                 subEdit.setText(subEdit.getText() + "9");
-
-                break;
-
-            case R.id.btn_pi:
-                if(it.getPrintData() != 0)
-                {
-                    value = MULT;
-                    subEdit.setText(subEdit.getText() + opSet[value]);
-
-                    list.addNode();
-                    it = it.getNext();
-                    it.setCalcOp(value);
-                }
-
-                it.setPrintData(Math.PI);
-
-                subEdit.setText(subEdit.getText() + "π");
-
-                isThere = false;
-                ifPass = true;
-                ifPoint = false;
-
-                break;
-
-            case R.id.btn_exp:
-                if(it.getPrintData() != 0)
-                {
-                    value = MULT;
-                    subEdit.setText(subEdit.getText() + opSet[value]);
-
-                    list.addNode();
-                    it = it.getNext();
-                    it.setCalcOp(value);
-                }
-
-                it.setPrintData(Math.E);
-
-                subEdit.setText(subEdit.getText() + "e");
-
-                isThere = false;
-                ifPass = true;
-                ifPoint = false;
+                it.setHit(true);
 
                 break;
 
             case R.id.btn_point:
+                if(!it.getHit()) break;
+
                 if(!ifPoint)
                 {
                     ifPoint = true;
@@ -273,7 +233,7 @@ public class MainActivity extends Activity
                 }
 
             case R.id.btn_pm:
-                if(it.getPrintData() != 0) break;
+                if(it.getHit()) break;
 
                 if(!it.getPM())
                 {
@@ -285,6 +245,7 @@ public class MainActivity extends Activity
                     it = it.getBracList().getFirst();
 
                     it.setPM(true);
+
                     temp = subEdit.getText().toString();
                     subEdit.setText(subEdit.getText() + "(-");
 
@@ -303,6 +264,49 @@ public class MainActivity extends Activity
 
                     break;
                 }
+
+            case R.id.btn_pi:
+                if(it.getHit())
+                {
+                    subEdit.setText(subEdit.getText() + opSet[MULT]);
+
+                    it.setCalcOp(MULT);
+                    list.addNode();
+                    it = it.getNext();
+                }
+
+                it.setPrintData(Math.PI);
+                it.setHit(true);
+
+                subEdit.setText(subEdit.getText() + "π");
+
+                isThere = false;
+                ifPass = true;
+                ifPoint = false;
+
+                break;
+
+            //자연상수 e를 입력할 때
+            case R.id.btn_exp:
+                if(it.getHit())
+                {
+                    subEdit.setText(subEdit.getText() + opSet[MULT]);
+
+                    it.setCalcOp(MULT);
+                    list.addNode();
+                    it = it.getNext();
+                }
+
+                it.setPrintData(Math.E);
+                it.setHit(true);
+
+                subEdit.setText(subEdit.getText() + "e");
+
+                isThere = false;
+                ifPass = true;
+                ifPoint = false;
+
+                break;
         }
     }
 
@@ -314,6 +318,8 @@ public class MainActivity extends Activity
         public void onClick(View v)
         {
             // TODO Auto-generated method stub
+
+            if(!it.getHit()) return;
 
             if (isThere)
             {
@@ -334,13 +340,12 @@ public class MainActivity extends Activity
             switch (v.getId())
             {
                 case R.id.btn_add:
-                    value = ADD;
-                    it.setPrintOp(value);
+                    it.setPrintOp(ADD);
 
                     list.addNode();
                     it = it.getNext();
 
-                    subEdit.setText(subEdit.getText() + opSet[value]);
+                    subEdit.setText(subEdit.getText() + opSet[ADD]);
                     edit.setText("");
 
                     isThere = false;
@@ -350,13 +355,13 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_sub:
-                    value = SUB;
-                    it.setPrintOp(value);
+                    it.setPrintOp(ADD);
 
                     list.addNode();
                     it = it.getNext();
+                    it.setPM(true);
 
-                    subEdit.setText(subEdit.getText() + opSet[value]);
+                    subEdit.setText(subEdit.getText() + opSet[SUB]);
                     edit.setText("");
 
                     isThere = false;
@@ -366,13 +371,12 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_mult:
-                     value = MULT;
-                    it.setPrintOp(value);
+                    it.setPrintOp(MULT);
 
                     list.addNode();
                     it = it.getNext();
 
-                    subEdit.setText(subEdit.getText() + opSet[value]);
+                    subEdit.setText(subEdit.getText() + opSet[MULT]);
                     edit.setText("");
 
                     isThere = false;
@@ -382,13 +386,12 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_div:
-                    value = DIV;
-                    it.setPrintOp(value);
+                    it.setPrintOp(DIV);
 
                     list.addNode();
                     it = it.getNext();
 
-                    subEdit.setText(subEdit.getText() + opSet[value]);
+                    subEdit.setText(subEdit.getText() + opSet[DIV]);
                     edit.setText("");
 
                     isThere = false;
@@ -398,13 +401,12 @@ public class MainActivity extends Activity
                 break;
 
                 case R.id.btn_pow:
-                    value = POW;
-                    it.setPrintOp(value);
+                    it.setPrintOp(POW);
 
                     list.addNode();
                     it = it.getNext();
 
-                    subEdit.setText(subEdit.getText() + opSet[value]);
+                    subEdit.setText(subEdit.getText() + opSet[POW]);
                     edit.setText("");
 
                     isThere = false;
@@ -423,9 +425,7 @@ public class MainActivity extends Activity
                         subEdit.setText(subEdit.getText() + ")");
                     }
 
-                    value = EQU;
-
-                    subEdit.setText(subEdit.getText() + opSet[value]);
+                    subEdit.setText(subEdit.getText() + opSet[EQU]);
                     edit.setText(list.doCalc() + "");
 
                     isThere = true;
@@ -434,6 +434,8 @@ public class MainActivity extends Activity
 
                     break;
             }
+
+            return;
         }
     };
 
@@ -463,12 +465,11 @@ public class MainActivity extends Activity
             switch(v.getId())
             {
                 case R.id.btn_lBrac:
-                    if(it.getPrintData() != 0)
+                    if(it.getHit())
                     {
-                        value = MULT;
-                        subEdit.setText(subEdit.getText() + opSet[value]);
+                        subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        it.setCalcOp(value);
+                        it.setCalcOp(MULT);
                         list.addNode();
                         it = it.getNext();
                     }
@@ -489,7 +490,7 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_rBrac:
-                    if(list.getMother() == null) break;
+                    if((list.getMother() == null) || (!it.getHit())) break;
 
                     it = list.getMother();
                     it.setPrintData(it.getBracList().doCalc());
@@ -534,19 +535,17 @@ public class MainActivity extends Activity
             switch(v.getId())
             {
                 case R.id.btn_sin:
-                    if((list.getLen() != 1) || (it.getPrintData() != 0))
+                    if(it.getHit())
                     {
-                        value = MULT;
+                        subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        subEdit.setText(subEdit.getText() + opSet[value]);
-                        edit.setText("");
-
+                        it.setCalcOp(MULT);
                         list.addNode();
-                        it.setPrintOp(value);
                         it = it.getNext();
                     }
 
                     it.setFunc(sinF);
+
                     it.setBracList(new LinkedList());
                     it.getBracList().setMother(it);
                     it.setMotherList(list);
@@ -563,15 +562,12 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_cos:
-                    if((list.getLen() != 1) || (it.getPrintData() != 0))
+                    if(it.getHit())
                     {
-                        value = MULT;
+                        subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        subEdit.setText(subEdit.getText() + opSet[value]);
-                        edit.setText("");
-
+                        it.setCalcOp(MULT);
                         list.addNode();
-                        it.setPrintOp(value);
                         it = it.getNext();
                     }
 
@@ -592,16 +588,12 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_tan:
-                    if((list.getLen() != 1) || (it.getPrintData() != 0))
+                    if(it.getHit())
                     {
-                        value = MULT;
-                        it.setPrintOp(value);
+                        subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        subEdit.setText(subEdit.getText() + opSet[value]);
-                        edit.setText("");
-
+                        it.setCalcOp(MULT);
                         list.addNode();
-                        it.setPrintOp(value);
                         it = it.getNext();
                     }
 
@@ -622,14 +614,15 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_squ:
-                    value = POW;
-                    it.setPrintOp(value);
+                    if(!it.getHit()) break;
+
+                    it.setPrintOp(POW);
 
                     list.addNode();
                     it = it.getNext();
                     it.setPrintData(2);
 
-                    subEdit.setText(subEdit.getText() + opSet[value] + "2");
+                    subEdit.setText(subEdit.getText() + opSet[POW] + "2");
                     edit.setText("");
 
                     isThere = false;
@@ -639,16 +632,12 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_log:
-                    if((list.getLen() != 1) || (it.getPrintData() != 0))
+                    if(it.getHit())
                     {
-                        value = MULT;
-                        it.setPrintOp(value);
+                        subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        subEdit.setText(subEdit.getText() + opSet[value]);
-                        edit.setText("");
-
+                        it.setCalcOp(MULT);
                         list.addNode();
-                        it.setPrintOp(value);
                         it = it.getNext();
                     }
 
@@ -670,16 +659,12 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_ln:
-                    if((list.getLen() != 1) || (it.getPrintData() != 0))
+                    if(it.getHit())
                     {
-                        value = MULT;
-                        it.setPrintOp(value);
+                        subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        subEdit.setText(subEdit.getText() + opSet[value]);
-                        edit.setText("");
-
+                        it.setCalcOp(MULT);
                         list.addNode();
-                        it.setPrintOp(value);
                         it = it.getNext();
                     }
 
@@ -726,7 +711,6 @@ public class MainActivity extends Activity
             list = new LinkedList();
             list.setDeg(false);
             it = list.getLast();
-            it.setPrintOp(NOT_AN_OPERATOR);
 
             isThere = false;
             ifPass = false;

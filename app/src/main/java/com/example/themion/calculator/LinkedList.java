@@ -2,19 +2,12 @@ package com.example.themion.calculator;
 
 public class LinkedList
 {
-    final int NOT_AN_OPERATOR = -1;
     final int ADD = 0;
     final int SUB = 1;
     final int MULT = 2;
     final int DIV = 3;
     final int POW = 4;
-    final int EQU = 5;
-    final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
 
-    final int noBrac = 0;
-    final int isBrac = 1;
-
-    final int noFunc = 0;
     final int sinFunc = 1;
     final int cosFunc = 2;
     final int tanFunc = 3;
@@ -42,29 +35,16 @@ public class LinkedList
     }
 
     int getLen() {return this.len;}
+
+    boolean getDeg() {return this.ifDeg;}
+
     Node getFirst() {return this.first;}
     Node getLast() {return this.last;}
     Node getMother() {return this.mother;}
-    boolean getDeg() {return this.ifDeg;}
 
-    //void setLen(int len) {this.len = len;}
     void setMother(Node mother) {this.mother = mother;}
     void setDeg(boolean ifDeg) {this.ifDeg = ifDeg;}
 
-/*------------------------------------------------------------------------------------------------------------------------------*/
-
-/*
-    node seek(int index)
-    {
-        node ret = this.first;
-
-        for(int i = 0; i < index; i++) ret = ret.next;
-
-        return ret;
-    }
-*/
-
-/*------------------------------------------------------------------------------------------------------------------------------*/
     void addNode()
     {
         if(this.list == null)
@@ -73,14 +53,11 @@ public class LinkedList
             this.list.setMotherList(this);
             this.first = this.list;
             this.last = this.list;
-
-            this.getFirst().setPrev(null);
         }
 
         else
         {
             this.last.setNext(new Node());
-            this.last.getNext().setPrev(this.last);
             this.last = this.last.getNext();
             this.last.setMotherList(this);
         }
@@ -143,6 +120,7 @@ public class LinkedList
                         it.setCalcData(Math.PI - it.getCalcData());
 
                     it.setCalcData(Math.sin(it.getCalcData()));
+                    it.setCalcData(it.getCalcData() / Math.sin(Math.PI / 2));
 
                     if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
 
@@ -166,7 +144,8 @@ public class LinkedList
                         it.setCalcData(Math.PI - it.getCalcData());
                     }
 
-                    it.setCalcData(Math.cos(it.getCalcData()) / Math.cos(0));
+                    it.setCalcData(Math.cos(it.getCalcData()));
+                    it.setCalcData(it.getCalcData() / Math.cos(0));
 
                     if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
 
@@ -187,7 +166,8 @@ public class LinkedList
                         it.setCalcData(it.getCalcData() - (Math.PI / 2));
                     }
 
-                    it.setCalcData(Math.tan(it.getCalcData()) / Math.tan(Math.PI / 4));
+                    it.setCalcData(Math.tan(it.getCalcData()));
+                    it.setCalcData(it.getCalcData() / Math.tan(Math.PI / 4));
 
                     if(ifOverSingularity) it.setCalcData(it.getCalcData() * (-1));
 
@@ -294,4 +274,17 @@ public class LinkedList
     }
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
+
+    void restore()
+    {
+        Node it = this.getFirst();
+
+        while(it != null)
+        {
+            it.setCalcData(it.getPrintData());
+            it.setCalcOp(it.getPrintOp());
+
+            it = it.getNext();
+        }
+    }
 }
