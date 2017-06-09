@@ -34,8 +34,6 @@ public class LinkedList
         this.mother = null;
     }
 
-    int getLen() {return this.len;}
-
     boolean getDeg() {return this.ifDeg;}
 
     Node getFirst() {return this.first;}
