@@ -9,30 +9,36 @@ public class LinkedList
     final int POW = 4;
     final int EQU = 5;
 
+    final int noF = 0;
     final int sinF = 1;
     final int cosF = 2;
     final int tanF = 3;
     final int logF = 4;
     final int lnF = 5;
 
+    final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
+    final String[] funcSet = {"(", "sin(", "cos(", "tan(", "log(", "ln("};
+
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
     private boolean ifDeg = false;
 
     private double dataCalc;
-    private int len;
+
     private Node list;
     private Node first, last, mother;
 
     LinkedList()
     {
+        this.ifDeg = false;
+
         this.dataCalc = 0;
-        this.len = 1;
 
         this.list = new Node();
         this.first = this.list;
         this.last = this.list;
         this.mother = null;
+
         this.first.setMotherList(this);
     }
 
@@ -42,8 +48,10 @@ public class LinkedList
     Node getLast() {return this.last;}
     Node getMother() {return this.mother;}
 
-    void setMother(Node mother) {this.mother = mother;}
     void setDeg(boolean ifDeg) {this.ifDeg = ifDeg;}
+
+    void setLast(Node last) {this.last = last;}
+    void setMother(Node mother) {this.mother = mother;}
 
     void addNode()
     {
@@ -58,13 +66,21 @@ public class LinkedList
         else
         {
             this.last.setNext(new Node());
-            this.last.getNext().setPrev(this.last);
-            this.last = this.last.getNext();
+            this.last.getNext().setPrev(this.getLast());
+            this.last = this.getLast().getNext();
             this.last.setMotherList(this);
         }
 
-        this.last.setNext(null);
-        this.len++;
+        this.getLast().setNext(null);
+    }
+
+    void popNode()
+    {
+        if(this.list == null) return;
+
+        this.last = this.getLast().getPrev();
+        this.getLast().getNext().setPrev(null);
+        this.getLast().setNext(null);
     }
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
@@ -73,25 +89,7 @@ public class LinkedList
     {
         this.dataCalc = 0;
 
-        Node it = this.first;
-
-        while(it != null)
-        {
-            it.setCalcData(it.getCalcData() / Math.pow(10, it.getPoint()));
-            it = it.getNext();
-        }
-
-        it = this.first;
-
-        while(it != null)
-        {
-            if(it.getPM()) it.setCalcData(it.getCalcData() * (-1));
-            it = it.getNext();
-        }
-
-/*------------------------------------------------------------------------------------------------------------------------------*/
-
-        it = new Node();
+        Node it = new Node();
         it.setNext(this.getFirst());
 
         while(it != this.getLast())
@@ -100,16 +98,16 @@ public class LinkedList
 
             it = it.getNext();
 
+            it.setCalcData(it.getCalcData() / Math.pow(10, it.getPoint()));
+            if(it.getPM()) it.setCalcData(it.getCalcData() * (-1));
+
             switch(it.getFunc())
             {
                 case (sinF):
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
-                    while(it.getCalcData() < 0)
-                        it.setCalcData(it.getCalcData() + (2 * Math.PI));
-
-                    while(it.getCalcData() >= 2 * Math.PI)
-                        it.setCalcData(it.getCalcData() - (2 * Math.PI));
+                    while(it.getCalcData() < 0) it.setCalcData(it.getCalcData() + (2 * Math.PI));
+                    while(it.getCalcData() >= 2 * Math.PI) it.setCalcData(it.getCalcData() - (2 * Math.PI));
 
                     if(it.getCalcData() > Math.PI)
                     {
@@ -117,8 +115,7 @@ public class LinkedList
                         it.setCalcData(it.getCalcData() - (Math.PI));
                     }
 
-                    if(it.getCalcData() > (Math.PI / 2))
-                        it.setCalcData(Math.PI - it.getCalcData());
+                    if(it.getCalcData() > (Math.PI / 2)) it.setCalcData(Math.PI - it.getCalcData());
 
                     it.setCalcData(Math.sin(it.getCalcData()));
                     it.setCalcData(it.getCalcData() / Math.sin(Math.PI / 2));
@@ -130,14 +127,10 @@ public class LinkedList
                 case (cosF):
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
-                    while(it.getCalcData() < 0)
-                        it.setCalcData(it.getCalcData() + (2 * Math.PI));
+                    while(it.getCalcData() < 0) it.setCalcData(it.getCalcData() + (2 * Math.PI));
+                    while(it.getCalcData() >= 2 * Math.PI) it.setCalcData(it.getCalcData() - (2 * Math.PI));
 
-                    while(it.getCalcData() >= 2 * Math.PI)
-                        it.setCalcData(it.getCalcData() - (2 * Math.PI));
-
-                    if(it.getCalcData() > Math.PI)
-                        it.setCalcData(it.getCalcData() - (Math.PI));
+                    if(it.getCalcData() > Math.PI) it.setCalcData((2 * Math.PI) - it.getCalcData());
 
                     if(it.getCalcData() > (Math.PI / 2))
                     {
@@ -155,16 +148,13 @@ public class LinkedList
                 case (tanF):
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
-                    while(it.getCalcData() < 0)
-                        it.setCalcData(it.getCalcData() + (Math.PI));
-
-                    while(it.getCalcData() >= Math.PI)
-                        it.setCalcData(it.getCalcData() - (Math.PI));
+                    while(it.getCalcData() < 0) it.setCalcData(it.getCalcData() + (Math.PI));
+                    while(it.getCalcData() >= Math.PI) it.setCalcData(it.getCalcData() - (Math.PI));
 
                     if(it.getCalcData() > (Math.PI / 2))
                     {
                         ifOverSingularity = true;
-                        it.setCalcData(it.getCalcData() - (Math.PI / 2));
+                        it.setCalcData(Math.PI - it.getCalcData());
                     }
 
                     it.setCalcData(Math.tan(it.getCalcData()));
@@ -175,30 +165,26 @@ public class LinkedList
                     break;
 
                 case (logF):
-                    if(it.getCalcData() > 0)
-                        it.setCalcData(Math.log10(it.getCalcData()));
-
+                    it.setCalcData(Math.log10(it.getCalcData()));
                     break;
 
                 case (lnF):
-                    if(it.getCalcData() > 0)
-                        it.setCalcData(Math.log(it.getCalcData()));
-
+                    it.setCalcData(Math.log(it.getCalcData()));
                     break;
             }
         }
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
-        if(this.len == 1)
+        if(this.getFirst() == this.getLast())
         {
-            this.dataCalc = this.first.getCalcData();
+            this.dataCalc = this.getFirst().getCalcData();
             return this.dataCalc;
         }
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
-        it = this.first;
+        it = this.getFirst();
 
         while(it != this.getLast())
         {
@@ -206,8 +192,8 @@ public class LinkedList
             {
                 case (POW):
                     it.getNext().setCalcData(Math.pow(it.getCalcData(), it.getNext().getCalcData()));
-                    it.setCalcOp(ADD);
-                    it.setCalcData(0);
+                    it.setCalcOp(MULT);
+                    it.setCalcData(1);
 
                     break;
             }
@@ -215,7 +201,7 @@ public class LinkedList
             it = it.getNext();
         }
 
-        it = this.first;
+        it = this.getFirst();
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -225,15 +211,15 @@ public class LinkedList
             {
                 case (MULT):
                     it.getNext().setCalcData(it.getCalcData() * it.getNext().getCalcData());
-                    it.setCalcOp(ADD);
-                    it.setCalcData(0);
+                    it.setCalcOp(MULT);
+                    it.setCalcData(1);
 
                     break;
 
                 case (DIV):
                     it.getNext().setCalcData(it.getCalcData() / it.getNext().getCalcData());
-                    it.setCalcOp(ADD);
-                    it.setCalcData(0);
+                    it.setCalcOp(MULT);
+                    it.setCalcData(1);
 
                     break;
             }
@@ -243,7 +229,7 @@ public class LinkedList
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
-        it = this.first;
+        it = this.getFirst();
 
         while(it != this.getLast())
         {
@@ -251,8 +237,8 @@ public class LinkedList
             {
                 case (ADD):
                     it.getNext().setCalcData(it.getCalcData() + it.getNext().getCalcData());
-                    it.setCalcOp(ADD);
-                    it.setCalcData(0);
+                    it.setCalcOp(MULT);
+                    it.setCalcData(1);
 
                     break;
             }
@@ -260,9 +246,9 @@ public class LinkedList
             it = it.getNext();
         }
 
-        this.first.setCalcData(this.getLast().getCalcData());
-        this.last.setCalcData(0);
-        this.dataCalc = this.first.getCalcData();
+        this.getFirst().setCalcData(this.getLast().getCalcData());
+        this.getLast().setCalcData(0);
+        this.dataCalc = this.getFirst().getCalcData();
 
         return this.dataCalc;
     }
@@ -278,6 +264,8 @@ public class LinkedList
             it.setCalcData(it.getPrintData());
             it.setCalcOp(it.getPrintOp());
 
+            if(it.getBracList() != null) it.getBracList().restore();
+
             it = it.getNext();
         }
     }
@@ -286,15 +274,24 @@ public class LinkedList
 
     String print()
     {
-        final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
-        final String[] funcSet = {"(", "sin(", "cos(", "tan(", "log(", "ln("};
-
         Node it = this.getFirst();
         String text = "";
 
         while(it != null)
         {
-            if(it.getBracList() != null) text += funcSet[it.getFunc()] + it.getBracList().print() + ")";
+            it.setPrintData(it.getPrintData() / Math.pow(10, it.getPoint()));
+            it = it.getNext();
+        }
+
+        it = this.getFirst();
+
+        while(it != null)
+        {
+            if(it.getBracList() != null)
+            {
+                text += funcSet[it.getFunc()] + it.getBracList().print();
+                if(it.getBracList().getLast().getPrintOp() == EQU) text += ")";
+            }
 
             else
             {
@@ -304,8 +301,13 @@ public class LinkedList
                 else if(it.getPrintData() == Math.E) text += "e";
                 else
                 {
-                    if(it.getPoint() == 0) text += (int) it.getPrintData();
-                    else text += it.getPrintData();
+                    if((it == it.getMotherList().getLast()) && ((it.getPrintData() != 0) || (this.getMother().getFunc() != noF)))
+                    {
+                        if(it.getPoint() == 0) text += String.valueOf((int) it.getPrintData());
+                        else text += String.valueOf(it.getPrintData());
+                    }
+                    else if(it.getPoint() == 0) text += String.valueOf((int) it.getPrintData());
+                    else text += String.valueOf(it.getPrintData());
                 }
             }
 
@@ -314,7 +316,6 @@ public class LinkedList
             it = it.getNext();
         }
 
-        if(this.getMother() == null) text += opSet[EQU];
         return text;
     }
 }
