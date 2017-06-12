@@ -23,6 +23,7 @@ public class Node {
     private boolean hit;
 
     private Node next;
+    private Node prev;
     private LinkedList motherList;
     private LinkedList bracList;
 
@@ -42,6 +43,7 @@ public class Node {
         this.hit = false;
 
         this.next = null;
+        this.prev = null;
         this.motherList = null;
         this.bracList = null;
     }
@@ -60,6 +62,7 @@ public class Node {
     boolean getHit() {return this.hit;}
 
     Node getNext() {return this.next;}
+    Node getPrev() {return this.prev;}
     LinkedList getMotherList() {return this.motherList;}
     LinkedList getBracList() {return this.bracList;}
 
@@ -77,6 +80,7 @@ public class Node {
     void setHit(boolean hit) {this.hit = hit;}
 
     void setNext(Node next) {this.next = next;}
+    void setPrev(Node prev) {this.prev = prev;}
     void setMotherList(LinkedList motherList) {this.motherList = motherList;}
     void setBracList(LinkedList bracList) {this.bracList = bracList;}
 }

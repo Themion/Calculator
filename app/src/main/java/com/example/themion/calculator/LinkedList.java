@@ -7,12 +7,13 @@ public class LinkedList
     final int MULT = 2;
     final int DIV = 3;
     final int POW = 4;
+    final int EQU = 5;
 
-    final int sinFunc = 1;
-    final int cosFunc = 2;
-    final int tanFunc = 3;
-    final int logFunc = 4;
-    final int lnFunc = 5;
+    final int sinF = 1;
+    final int cosF = 2;
+    final int tanF = 3;
+    final int logF = 4;
+    final int lnF = 5;
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -32,6 +33,7 @@ public class LinkedList
         this.first = this.list;
         this.last = this.list;
         this.mother = null;
+        this.first.setMotherList(this);
     }
 
     boolean getDeg() {return this.ifDeg;}
@@ -56,6 +58,7 @@ public class LinkedList
         else
         {
             this.last.setNext(new Node());
+            this.last.getNext().setPrev(this.last);
             this.last = this.last.getNext();
             this.last.setMotherList(this);
         }
@@ -99,7 +102,7 @@ public class LinkedList
 
             switch(it.getFunc())
             {
-                case (sinFunc):
+                case (sinF):
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -124,7 +127,7 @@ public class LinkedList
 
                     break;
 
-                case (cosFunc):
+                case (cosF):
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -149,7 +152,7 @@ public class LinkedList
 
                     break;
 
-                case (tanFunc):
+                case (tanF):
                     if(getDeg()) it.setCalcData(Math.toRadians(it.getCalcData()));
 
                     while(it.getCalcData() < 0)
@@ -171,13 +174,13 @@ public class LinkedList
 
                     break;
 
-                case (logFunc):
+                case (logF):
                     if(it.getCalcData() > 0)
                         it.setCalcData(Math.log10(it.getCalcData()));
 
                     break;
 
-                case (lnFunc):
+                case (lnF):
                     if(it.getCalcData() > 0)
                         it.setCalcData(Math.log(it.getCalcData()));
 
@@ -252,13 +255,6 @@ public class LinkedList
                     it.setCalcData(0);
 
                     break;
-
-                case (SUB):
-                    it.getNext().setCalcData(it.getCalcData() - it.getNext().getCalcData());
-                    it.setCalcOp(ADD);
-                    it.setCalcData(0);
-
-                    break;
             }
 
             it = it.getNext();
@@ -284,5 +280,41 @@ public class LinkedList
 
             it = it.getNext();
         }
+    }
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
+    String print()
+    {
+        final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
+        final String[] funcSet = {"(", "sin(", "cos(", "tan(", "log(", "ln("};
+
+        Node it = this.getFirst();
+        String text = "";
+
+        while(it != null)
+        {
+            if(it.getBracList() != null) text += funcSet[it.getFunc()] + it.getBracList().print() + ")";
+
+            else
+            {
+                if(it.getPM()) text += " - ";
+
+                if(it.getPrintData() == Math.PI) text += "π";
+                else if(it.getPrintData() == Math.E) text += "e";
+                else
+                {
+                    if(it.getPoint() == 0) text += (int) it.getPrintData();
+                    else text += it.getPrintData();
+                }
+            }
+
+            if((it.getNext() != null) && (it.getPrintOp() != -1) && !((it.getNext().getPM()) && (it.getPrintOp() == ADD))) text += opSet[it.getPrintOp()];
+
+            it = it.getNext();
+        }
+
+        if(this.getMother() == null) text += opSet[EQU];
+        return text;
     }
 }

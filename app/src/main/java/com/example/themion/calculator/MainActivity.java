@@ -18,6 +18,7 @@ public class MainActivity extends Activity
     final int EQU = 5;
     final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
 
+    final int noF = 0;
     final int sinF = 1;
     final int cosF = 2;
     final int tanF = 3;
@@ -28,7 +29,7 @@ public class MainActivity extends Activity
 
     TextView edit, subEdit;
 
-    Button C;
+    Button C, back;
     Button add, sub, mult, div, equ;
     Button lBrac, rBrac, squ, pow;
     Button log, ln;
@@ -102,7 +103,11 @@ public class MainActivity extends Activity
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
         C = (Button) findViewById(R.id.btn_C);
+        back = (Button) findViewById(R.id.btn_back);
+
+
         C.setOnClickListener(cancelListener);
+        back.setOnClickListener(cancelListener);
 
         list = new LinkedList();
         it = list.getLast();
@@ -237,27 +242,35 @@ public class MainActivity extends Activity
 
                 if(!it.getPM())
                 {
-                    it.setBracList(new LinkedList());
-                    it.getBracList().setMother(it);
-                    it.setMotherList(list);
+                    if(list.getMother() == null)
+                    {
+                        it.setBracList(new LinkedList());
+                        it.getBracList().setMother(it);
+                        it.setMotherList(list);
 
-                    list = it.getBracList();
-                    it = it.getBracList().getFirst();
+                        list = it.getBracList();
+                        it = it.getBracList().getFirst();
+
+                        subEdit.setText(subEdit.getText() + "(");
+                    }
 
                     it.setPM(true);
 
                     temp = subEdit.getText().toString();
-                    subEdit.setText(subEdit.getText() + "(-");
+                    subEdit.setText(subEdit.getText() + "-");
 
                     break;
                 }
 
                 else
                 {
-                    it = list.getMother();
-                    it.setPrintData(it.getBracList().doCalc());
+                    if(list.getMother().getFunc() == noF)
+                    {
+                        it = list.getMother();
+                        it.setPrintData(it.getBracList().doCalc());
 
-                    list = it.getMotherList();
+                        list = it.getMotherList();
+                    }
 
                     it.setPM(false);
                     subEdit.setText(temp);
@@ -425,8 +438,13 @@ public class MainActivity extends Activity
                         subEdit.setText(subEdit.getText() + ")");
                     }
 
-                    subEdit.setText(subEdit.getText() + opSet[EQU]);
-                    edit.setText(list.doCalc() + "");
+                    it.setPrintOp(EQU);
+                    subEdit.setText(list.print());
+
+                    double prt = list.doCalc();
+
+                    if(prt == (int)prt) edit.setText((int)prt + "");
+                    else edit.setText(prt + "");
 
                     isThere = true;
                     ifPass = false;
@@ -469,7 +487,7 @@ public class MainActivity extends Activity
                     {
                         subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        it.setCalcOp(MULT);
+                        it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
                     }
@@ -493,6 +511,7 @@ public class MainActivity extends Activity
                     if((list.getMother() == null) || (!it.getHit())) break;
 
                     it = list.getMother();
+                    it.setHit(true);
                     it.setPrintData(it.getBracList().doCalc());
 
                     list = it.getMotherList();
@@ -539,7 +558,7 @@ public class MainActivity extends Activity
                     {
                         subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        it.setCalcOp(MULT);
+                        it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
                     }
@@ -566,7 +585,7 @@ public class MainActivity extends Activity
                     {
                         subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        it.setCalcOp(MULT);
+                        it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
                     }
@@ -592,7 +611,7 @@ public class MainActivity extends Activity
                     {
                         subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        it.setCalcOp(MULT);
+                        it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
                     }
@@ -636,7 +655,7 @@ public class MainActivity extends Activity
                     {
                         subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        it.setCalcOp(MULT);
+                        it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
                     }
@@ -663,7 +682,7 @@ public class MainActivity extends Activity
                     {
                         subEdit.setText(subEdit.getText() + opSet[MULT]);
 
-                        it.setCalcOp(MULT);
+                        it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
                     }
@@ -704,17 +723,26 @@ public class MainActivity extends Activity
         @Override
         public void onClick(View v)
         {
-            edit.setText("");
-            subEdit.setText("");
-            deg.setText("RAD");
+            switch(v.getId())
+            {
+                case R.id.btn_C:
+                    edit.setText("");
+                    subEdit.setText("");
+                    deg.setText("RAD");
 
-            list = new LinkedList();
-            list.setDeg(false);
-            it = list.getLast();
+                    list = new LinkedList();
+                    list.setDeg(false);
+                    it = list.getLast();
 
-            isThere = false;
-            ifPass = false;
-            ifPoint = false;
+                    isThere = false;
+                    ifPass = false;
+                    ifPoint = false;
+
+                    break;
+                /*
+                case R.id.btn_back:
+                  */
+            }
         }
     };
 }

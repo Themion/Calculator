@@ -36,7 +36,6 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
-
         <Button
             android:id="@+id/btn_help"
             android:layout_width="wrap_content"
@@ -46,13 +45,26 @@
             android:text="Help!"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/btn_C"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:onClick="onClick"
-            android:text="C" />
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:textStyle="bold"
+                android:text="←" />
+
+            <Button
+                android:id="@+id/btn_C"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="C" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -224,7 +236,6 @@
                 android:text="4" />
 
             <Button
-
                 android:id="@+id/btn_5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
