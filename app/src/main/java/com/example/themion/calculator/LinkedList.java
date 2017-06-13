@@ -98,7 +98,11 @@ public class LinkedList
 
             it = it.getNext();
 
-            it.setCalcData(it.getCalcData() / Math.pow(10, it.getPoint()));
+            if(it.getPoint() > 0)
+            {
+                it.setCalcData(it.getCalcData() / Math.pow(10, it.getPoint() - 1));
+            }
+
             if(it.getPM()) it.setCalcData(it.getCalcData() * (-1));
 
             switch(it.getFunc())
@@ -279,7 +283,7 @@ public class LinkedList
 
         while(it != null)
         {
-            it.setPrintData(it.getPrintData() / Math.pow(10, it.getPoint()));
+            if(it.getPoint() > 0) it.setPrintData(it.getPrintData() / Math.pow(10, it.getPoint() - 1));
             it = it.getNext();
         }
 
@@ -301,18 +305,25 @@ public class LinkedList
                 else if(it.getPrintData() == Math.E) text += "e";
                 else
                 {
-                    if((it == it.getMotherList().getLast()) && ((it.getPrintData() != 0) || (this.getMother().getFunc() != noF)))
+                    if(!((it.getNext() == null) && (!it.getHit())))
                     {
-                        if(it.getPoint() == 0) text += String.valueOf((int) it.getPrintData());
+                        if (it.getPoint() == 0) text += String.valueOf((int) it.getPrintData());
+                        else if (it.getPoint() == 1) text = text + String.valueOf((int) it.getPrintData()) + '.';
                         else text += String.valueOf(it.getPrintData());
                     }
-                    else if(it.getPoint() == 0) text += String.valueOf((int) it.getPrintData());
-                    else text += String.valueOf(it.getPrintData());
                 }
             }
 
             if((it.getNext() != null) && (it.getPrintOp() != -1) && !((it.getNext().getPM()) && (it.getPrintOp() == ADD))) text += opSet[it.getPrintOp()];
 
+            it = it.getNext();
+        }
+
+        it = this.getFirst();
+
+        while(it != null)
+        {
+            if(it.getPoint() > 0) it.setPrintData(it.getPrintData() * Math.pow(10, it.getPoint() - 1));
             it = it.getNext();
         }
 

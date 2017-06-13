@@ -38,7 +38,6 @@ public class MainActivity extends Activity
 
     boolean isThere = false;
     boolean ifPass = false;
-    boolean ifPoint = false;
 
     String temp = "";
 
@@ -133,7 +132,6 @@ public class MainActivity extends Activity
 
             isThere = false;
             ifPass = false;
-            ifPoint = false;
         }
 
         if(ifPass)
@@ -148,7 +146,7 @@ public class MainActivity extends Activity
             ifPass = false;
         }
 
-        if(ifPoint) it.setPoint(it.getPoint() + 1);
+        if(it.getPoint() > 0) it.setPoint(it.getPoint() + 1);
 
         switch (v.getId())
         {
@@ -232,9 +230,9 @@ public class MainActivity extends Activity
             case R.id.btn_point:
                 if(!it.getHit()) break;
 
-                if(!ifPoint)
+                if(it.getPoint() == 0)
                 {
-                    ifPoint = true;
+                    it.setPoint(1);
                     subEdit.setText(subEdit.getText() + ".");
                 }
 
@@ -296,7 +294,6 @@ public class MainActivity extends Activity
 
                 isThere = false;
                 ifPass = true;
-                ifPoint = false;
 
                 break;
 
@@ -318,7 +315,6 @@ public class MainActivity extends Activity
 
                 isThere = false;
                 ifPass = true;
-                ifPoint = false;
 
                 break;
         }
@@ -333,7 +329,7 @@ public class MainActivity extends Activity
         {
             // TODO Auto-generated method stub
 
-            if(!it.getHit()) return;
+            if((!it.getHit()) || (it.getPoint() == 1)) return;
 
             if (isThere)
             {
@@ -349,7 +345,6 @@ public class MainActivity extends Activity
 
                 isThere = false;
                 ifPass = false;
-                ifPoint = false;
             }
 
             switch (v.getId()) {
@@ -364,7 +359,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -380,7 +374,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -395,7 +388,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -410,7 +402,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -425,7 +416,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -455,7 +445,6 @@ public class MainActivity extends Activity
 
                     isThere = true;
                     ifPass = false;
-                    ifPoint = false;
 
                     subEdit.setText(text + opSet[EQU]);
 
@@ -471,6 +460,8 @@ public class MainActivity extends Activity
         @Override
         public void onClick(View v)
         {
+            if(it.getPoint() == 1) return;
+
             if (isThere)
             {
                 double data = Double.parseDouble(edit.getText().toString());
@@ -484,7 +475,6 @@ public class MainActivity extends Activity
 
                 isThere = false;
                 ifPass = false;
-                ifPoint = false;
             }
 
             switch(v.getId())
@@ -511,7 +501,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -529,7 +518,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = true;
-                    ifPoint = false;
 
                     break;
             }
@@ -543,6 +531,7 @@ public class MainActivity extends Activity
         @Override
         public void onClick(View v)
         {
+            if(it.getPoint() == 1) return;
 
             if (isThere)
             {
@@ -557,7 +546,6 @@ public class MainActivity extends Activity
 
                 isThere = false;
                 ifPass = false;
-                ifPoint = false;
             }
 
             switch(v.getId())
@@ -585,7 +573,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -611,7 +598,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -637,7 +623,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -656,7 +641,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = true;
-                    ifPoint = false;
 
                     break;
 
@@ -683,7 +667,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -710,7 +693,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -746,7 +728,6 @@ public class MainActivity extends Activity
 
                     isThere = false;
                     ifPass = false;
-                    ifPoint = false;
 
                     break;
 
@@ -766,11 +747,7 @@ public class MainActivity extends Activity
                     else if(it.getHit())
                     {
                         if(it.getPrintData() < 10) it.setHit(false);
-                        if(it.getPoint() > 0)
-                        {
-                            it.setPoint(it.getPoint() - 1);
-                            if(it.getPoint() == 0 ) ifPoint = false;
-                        }
+                        if(it.getPoint() > 0) it.setPoint(it.getPoint() - 1);
 
                         it.setPrintData((int) (it.getPrintData() / 10));
                     }
@@ -785,7 +762,6 @@ public class MainActivity extends Activity
 
                         isThere = false;
                         ifPass = false;
-                        ifPoint = false;
                     }
 
                     else if((it.getPrev() != null) && (it.getPrev().getPrintOp() != NOT_AN_OPERATOR))
