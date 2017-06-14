@@ -98,12 +98,9 @@ public class LinkedList
 
             it = it.getNext();
 
-            if(it.getPoint() > 0)
-            {
-                it.setCalcData(it.getCalcData() / Math.pow(10, it.getPoint() - 1));
-            }
-
+            if(it.getPoint() > 0) it.setCalcData(it.getCalcData() / Math.pow(10, it.getPoint() - 1));
             if(it.getPM()) it.setCalcData(it.getCalcData() * (-1));
+            if(it.getMD()) it.setCalcData(1 / (it.getCalcData()));
 
             switch(it.getFunc())
             {
@@ -215,15 +212,8 @@ public class LinkedList
             {
                 case (MULT):
                     it.getNext().setCalcData(it.getCalcData() * it.getNext().getCalcData());
-                    it.setCalcOp(MULT);
-                    it.setCalcData(1);
-
-                    break;
-
-                case (DIV):
-                    it.getNext().setCalcData(it.getCalcData() / it.getNext().getCalcData());
-                    it.setCalcOp(MULT);
-                    it.setCalcData(1);
+                    it.setCalcOp(ADD);
+                    it.setCalcData(0);
 
                     break;
             }
@@ -241,8 +231,8 @@ public class LinkedList
             {
                 case (ADD):
                     it.getNext().setCalcData(it.getCalcData() + it.getNext().getCalcData());
-                    it.setCalcOp(MULT);
-                    it.setCalcData(1);
+                    it.setCalcOp(ADD);
+                    it.setCalcData(0);
 
                     break;
             }
@@ -299,8 +289,6 @@ public class LinkedList
 
             else
             {
-                if(it.getPM()) text += " - ";
-
                 if(it.getPrintData() == Math.PI) text += "π";
                 else if(it.getPrintData() == Math.E) text += "e";
                 else
@@ -314,7 +302,7 @@ public class LinkedList
                 }
             }
 
-            if((it.getNext() != null) && (it.getPrintOp() != -1) && !((it.getNext().getPM()) && (it.getPrintOp() == ADD))) text += opSet[it.getPrintOp()];
+            if((it.getNext() != null) && (it.getPrintOp() != -1)) text += opSet[it.getPrintOp()];
 
             it = it.getNext();
         }

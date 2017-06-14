@@ -20,6 +20,7 @@ public class Node {
     private int func;
 
     private boolean pm;
+    private boolean md;
     private boolean hit;
 
     private Node next;
@@ -40,6 +41,7 @@ public class Node {
         this.func = noFunc;
 
         this.pm = false;
+        this.md = false;
         this.hit = false;
 
         this.next = null;
@@ -59,6 +61,7 @@ public class Node {
     int getFunc() {return this.func;}
 
     boolean getPM() {return this.pm;}
+    boolean getMD() {return this.md;}
     boolean getHit() {return this.hit;}
 
     Node getNext() {return this.next;}
@@ -77,6 +80,7 @@ public class Node {
     void setFunc(int func) {this.func = func;}
 
     void setPM(boolean pm) {this.pm = pm;}
+    void setMD(boolean md) {this.md = md;}
     void setHit(boolean hit) {this.hit = hit;}
 
     void setNext(Node next) {this.next = next;}

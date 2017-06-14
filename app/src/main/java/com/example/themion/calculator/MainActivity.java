@@ -39,8 +39,6 @@ public class MainActivity extends Activity
     boolean isThere = false;
     boolean ifPass = false;
 
-    String temp = "";
-
     private LinkedList list;
     private Node it;
 
@@ -148,6 +146,9 @@ public class MainActivity extends Activity
 
         if(it.getPoint() > 0) it.setPoint(it.getPoint() + 1);
 
+        LinkedList abc = null;
+        String txt = "";
+
         switch (v.getId())
         {
             case R.id.btn_help:
@@ -159,82 +160,135 @@ public class MainActivity extends Activity
 
             case R.id.btn_0:
                 it.setPrintData(it.getPrintData() * 10 + 0);
-                subEdit.setText(subEdit.getText() + "0");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_1:
                 it.setPrintData(it.getPrintData() * 10 + 1);
-                subEdit.setText(subEdit.getText() + "1");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_2:
                 it.setPrintData(it.getPrintData() * 10 + 2);
-                subEdit.setText(subEdit.getText() + "2");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_3:
                 it.setPrintData(it.getPrintData() * 10 + 3);
-                subEdit.setText(subEdit.getText() + "3");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_4:
                 it.setPrintData(it.getPrintData() * 10 + 4);
-                subEdit.setText(subEdit.getText() + "4");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_5:
                 it.setPrintData(it.getPrintData() * 10 + 5);
-                subEdit.setText(subEdit.getText() + "5");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_6:
                 it.setPrintData(it.getPrintData() * 10 + 6);
-                subEdit.setText(subEdit.getText() + "6");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_7:
                 it.setPrintData(it.getPrintData() * 10 + 7);
-                subEdit.setText(subEdit.getText() + "7");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_8:
                 it.setPrintData(it.getPrintData() * 10 + 8);
-                subEdit.setText(subEdit.getText() + "8");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_9:
                 it.setPrintData(it.getPrintData() * 10 + 9);
-                subEdit.setText(subEdit.getText() + "9");
                 it.setHit(true);
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 break;
 
             case R.id.btn_point:
                 if(!it.getHit()) break;
+                if(it.getPoint() == 0) it.setPoint(1);
 
-                if(it.getPoint() == 0)
-                {
-                    it.setPoint(1);
-                    subEdit.setText(subEdit.getText() + ".");
-                }
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
+
+                break;
 
             case R.id.btn_pm:
                 if(it.getHit()) break;
@@ -249,14 +303,15 @@ public class MainActivity extends Activity
 
                         list = it.getBracList();
                         it = it.getBracList().getFirst();
-
-                        subEdit.setText(subEdit.getText() + "(");
                     }
 
                     it.setPM(true);
 
-                    temp = subEdit.getText().toString();
-                    subEdit.setText(subEdit.getText() + " - ");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     break;
                 }
@@ -272,16 +327,18 @@ public class MainActivity extends Activity
                     }
 
                     it.setPM(false);
-                    subEdit.setText(temp);
 
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
                     break;
                 }
 
             case R.id.btn_pi:
                 if(it.getHit())
                 {
-                    subEdit.setText(subEdit.getText() + opSet[MULT]);
-
                     it.setPrintOp(MULT);
                     list.addNode();
                     it = it.getNext();
@@ -290,7 +347,11 @@ public class MainActivity extends Activity
                 it.setPrintData(Math.PI);
                 it.setHit(true);
 
-                subEdit.setText(subEdit.getText() + "π");
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 isThere = false;
                 ifPass = true;
@@ -301,8 +362,6 @@ public class MainActivity extends Activity
             case R.id.btn_exp:
                 if(it.getHit())
                 {
-                    subEdit.setText(subEdit.getText() + opSet[MULT]);
-
                     it.setPrintOp(MULT);
                     list.addNode();
                     it = it.getNext();
@@ -311,7 +370,11 @@ public class MainActivity extends Activity
                 it.setPrintData(Math.E);
                 it.setHit(true);
 
-                subEdit.setText(subEdit.getText() + "e");
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                txt = abc.print();
+
+                subEdit.setText(txt);
 
                 isThere = false;
                 ifPass = true;
@@ -347,6 +410,9 @@ public class MainActivity extends Activity
                 ifPass = false;
             }
 
+            LinkedList abc = null;
+            String txt = "";
+
             switch (v.getId()) {
                 case R.id.btn_add:
                     it.setPrintOp(ADD);
@@ -354,8 +420,11 @@ public class MainActivity extends Activity
                     list.addNode();
                     it = it.getNext();
 
-                    subEdit.setText(subEdit.getText() + opSet[ADD]);
-                    edit.setText("");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -363,15 +432,18 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_sub:
-                    it.setPrintOp(ADD);
+                    it.setPrintOp(SUB);
+                    it.setCalcOp(ADD);
 
                     list.addNode();
                     it = it.getNext();
                     it.setPM(true);
 
-                    subEdit.setText(subEdit.getText() + opSet[SUB]);
-                    edit.setText("");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
 
+                    subEdit.setText(txt);
                     isThere = false;
                     ifPass = false;
 
@@ -383,8 +455,11 @@ public class MainActivity extends Activity
                     list.addNode();
                     it = it.getNext();
 
-                    subEdit.setText(subEdit.getText() + opSet[MULT]);
-                    edit.setText("");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -393,12 +468,17 @@ public class MainActivity extends Activity
 
                 case R.id.btn_div:
                     it.setPrintOp(DIV);
+                    it.setCalcOp(MULT);
 
                     list.addNode();
                     it = it.getNext();
+                    it.setMD(true);
 
-                    subEdit.setText(subEdit.getText() + opSet[DIV]);
-                    edit.setText("");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -411,8 +491,11 @@ public class MainActivity extends Activity
                     list.addNode();
                     it = it.getNext();
 
-                    subEdit.setText(subEdit.getText() + opSet[POW]);
-                    edit.setText("");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -428,25 +511,22 @@ public class MainActivity extends Activity
                         it.setHit(true);
 
                         list = it.getMotherList();
-                        subEdit.setText(subEdit.getText() + ")");
                     }
 
                     it.setPrintOp(EQU);
-                    String text = list.print();
 
                     double prt = list.doCalc();
-
-                    if (prt == (int) prt)
-                    {
-                        edit.setText(((int) prt) + "");
-                    }
-
+                    if (prt == (int) prt) edit.setText(((int) prt) + "");
                     else edit.setText(prt + "");
 
                     isThere = true;
                     ifPass = false;
 
-                    subEdit.setText(text + opSet[EQU]);
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     break;
             }
@@ -477,6 +557,9 @@ public class MainActivity extends Activity
                 ifPass = false;
             }
 
+            LinkedList abc = null;
+            String txt = "";
+
             switch(v.getId())
             {
                 case R.id.btn_lBrac:
@@ -496,8 +579,12 @@ public class MainActivity extends Activity
                     list = it.getBracList();
                     it = it.getBracList().getFirst();
 
-                    temp = subEdit.getText().toString();
-                    subEdit.setText(subEdit.getText() + "(");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
+
 
                     isThere = false;
                     ifPass = false;
@@ -514,7 +601,11 @@ public class MainActivity extends Activity
 
                     list = it.getMotherList();
 
-                    subEdit.setText(subEdit.getText() + ")");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = true;
@@ -548,13 +639,13 @@ public class MainActivity extends Activity
                 ifPass = false;
             }
 
+            LinkedList abc = null;
+            String txt = "";
             switch(v.getId())
             {
                 case R.id.btn_sin:
                     if(it.getHit())
                     {
-                        subEdit.setText(subEdit.getText() + opSet[MULT]);
-
                         it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
@@ -569,7 +660,11 @@ public class MainActivity extends Activity
                     list = it.getBracList();
                     it = it.getBracList().getFirst();
 
-                    subEdit.setText(subEdit.getText() + "sin(");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -579,8 +674,6 @@ public class MainActivity extends Activity
                 case R.id.btn_cos:
                     if(it.getHit())
                     {
-                        subEdit.setText(subEdit.getText() + opSet[MULT]);
-
                         it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
@@ -594,7 +687,11 @@ public class MainActivity extends Activity
                     list = it.getBracList();
                     it = it.getBracList().getFirst();
 
-                    subEdit.setText(subEdit.getText() + "cos(");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -604,8 +701,6 @@ public class MainActivity extends Activity
                 case R.id.btn_tan:
                     if(it.getHit())
                     {
-                        subEdit.setText(subEdit.getText() + opSet[MULT]);
-
                         it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
@@ -619,7 +714,11 @@ public class MainActivity extends Activity
                     list = it.getBracList();
                     it = it.getBracList().getFirst();
 
-                    subEdit.setText(subEdit.getText() + "tan(");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -636,8 +735,11 @@ public class MainActivity extends Activity
                     it.setPrintData(2);
                     it.setHit(true);
 
-                    subEdit.setText(subEdit.getText() + opSet[POW] + "2");
-                    edit.setText("");
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
+
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = true;
@@ -647,8 +749,6 @@ public class MainActivity extends Activity
                 case R.id.btn_log:
                     if(it.getHit())
                     {
-                        subEdit.setText(subEdit.getText() + opSet[MULT]);
-
                         it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
@@ -662,8 +762,11 @@ public class MainActivity extends Activity
                     list = it.getBracList();
                     it = it.getBracList().getFirst();
 
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
 
-                    subEdit.setText(subEdit.getText() + "log(");
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -673,8 +776,6 @@ public class MainActivity extends Activity
                 case R.id.btn_ln:
                     if(it.getHit())
                     {
-                        subEdit.setText(subEdit.getText() + opSet[MULT]);
-
                         it.setPrintOp(MULT);
                         list.addNode();
                         it = it.getNext();
@@ -688,8 +789,11 @@ public class MainActivity extends Activity
                     list = it.getBracList();
                     it = it.getBracList().getFirst();
 
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+                    txt = abc.print();
 
-                    subEdit.setText(subEdit.getText() + "ln(");
+                    subEdit.setText(txt);
 
                     isThere = false;
                     ifPass = false;
@@ -772,9 +876,7 @@ public class MainActivity extends Activity
                     }
 
                     LinkedList abcd = list;
-
                     while(abcd.getMother() != null) abcd = abcd.getMother().getMotherList();
-
                     String text = abcd.print();
 
                     subEdit.setText(text);
