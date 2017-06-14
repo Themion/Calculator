@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
+import java.util.LinkedList;
 
 public class MainActivity extends Activity
 {
@@ -30,7 +31,7 @@ public class MainActivity extends Activity
 
     TextView edit, subEdit;
 
-    Button C, back;
+    Button C, back, hist;
     Button add, sub, mult, div, equ;
     Button lBrac, rBrac, squ, pow;
     Button log, ln;
@@ -39,7 +40,10 @@ public class MainActivity extends Activity
     boolean isThere = false;
     boolean ifPass = false;
 
-    private LinkedList list;
+    String histList = "";
+    Intent intent;
+
+    private CalculateList list;
     private Node it;
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
@@ -100,14 +104,19 @@ public class MainActivity extends Activity
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
+        intent = new Intent(this, HistActivity.class);
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
+        hist = (Button) findViewById(R.id.btn_hist);
         C = (Button) findViewById(R.id.btn_C);
         back = (Button) findViewById(R.id.btn_back);
 
-
+        hist.setOnClickListener(cancelListener);
         C.setOnClickListener(cancelListener);
         back.setOnClickListener(cancelListener);
 
-        list = new LinkedList();
+        list = new CalculateList();
         it = list.getLast();
 
         subEdit.setText("");
@@ -125,7 +134,7 @@ public class MainActivity extends Activity
             edit.setText("");
             subEdit.setText("");
 
-            list = new LinkedList();
+            list = new CalculateList();
             it = list.getLast();
 
             isThere = false;
@@ -146,7 +155,7 @@ public class MainActivity extends Activity
 
         if(it.getPoint() > 0) it.setPoint(it.getPoint() + 1);
 
-        LinkedList abc = null;
+        CalculateList abc = null;
         String txt = "";
 
         switch (v.getId())
@@ -297,7 +306,7 @@ public class MainActivity extends Activity
                 {
                     if(list.getMother() == null)
                     {
-                        it.setBracList(new LinkedList());
+                        it.setBracList(new CalculateList());
                         it.getBracList().setMother(it);
                         it.setMotherList(list);
 
@@ -402,15 +411,16 @@ public class MainActivity extends Activity
                 else subEdit.setText(data + "");
                 edit.setText("");
 
-                list = new LinkedList();
+                list = new CalculateList();
                 it = list.getLast();
+                it.setHit(true);
                 it.setPrintData(data);
 
                 isThere = false;
                 ifPass = false;
             }
 
-            LinkedList abc = null;
+            CalculateList abc = null;
             String txt = "";
 
             switch (v.getId()) {
@@ -515,18 +525,20 @@ public class MainActivity extends Activity
 
                     it.setPrintOp(EQU);
 
-                    double prt = list.doCalc();
-                    if (prt == (int) prt) edit.setText(((int) prt) + "");
-                    else edit.setText(prt + "");
-
-                    isThere = true;
-                    ifPass = false;
-
                     abc = list;
                     while(abc.getMother() != null) abc = abc.getMother().getMotherList();
                     txt = abc.print();
 
                     subEdit.setText(txt);
+
+                    double prt = list.doCalc();
+                    if (prt == (int) prt) edit.setText(((int) prt) + "");
+                    else edit.setText(prt + "");
+
+                    histList += txt + opSet[EQU] + prt + "\n";
+
+                    isThere = true;
+                    ifPass = false;
 
                     break;
             }
@@ -549,15 +561,16 @@ public class MainActivity extends Activity
                 subEdit.setText(data + "");
                 edit.setText("");
 
-                list = new LinkedList();
+                list = new CalculateList();
                 it = list.getLast();
+                it.setHit(true);
                 it.setPrintData(data);
 
                 isThere = false;
                 ifPass = false;
             }
 
-            LinkedList abc = null;
+            CalculateList abc = null;
             String txt = "";
 
             switch(v.getId())
@@ -572,7 +585,7 @@ public class MainActivity extends Activity
                         it = it.getNext();
                     }
 
-                    it.setBracList(new LinkedList());
+                    it.setBracList(new CalculateList());
                     it.getBracList().setMother(it);
                     it.setMotherList(list);
 
@@ -631,15 +644,16 @@ public class MainActivity extends Activity
                 subEdit.setText(data + "");
                 edit.setText("");
 
-                list = new LinkedList();
+                list = new CalculateList();
                 it = list.getLast();
+                it.setHit(true);
                 it.setPrintData(data);
 
                 isThere = false;
                 ifPass = false;
             }
 
-            LinkedList abc = null;
+            CalculateList abc = null;
             String txt = "";
             switch(v.getId())
             {
@@ -653,7 +667,7 @@ public class MainActivity extends Activity
 
                     it.setFunc(sinF);
 
-                    it.setBracList(new LinkedList());
+                    it.setBracList(new CalculateList());
                     it.getBracList().setMother(it);
                     it.setMotherList(list);
 
@@ -680,7 +694,7 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(cosF);
-                    it.setBracList(new LinkedList());
+                    it.setBracList(new CalculateList());
                     it.getBracList().setMother(it);
                     it.setMotherList(list);
 
@@ -707,7 +721,7 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(tanF);
-                    it.setBracList(new LinkedList());
+                    it.setBracList(new CalculateList());
                     it.getBracList().setMother(it);
                     it.setMotherList(list);
 
@@ -755,7 +769,7 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(logF);
-                    it.setBracList(new LinkedList());
+                    it.setBracList(new CalculateList());
                     it.getBracList().setMother(it);
                     it.setMotherList(list);
 
@@ -782,7 +796,7 @@ public class MainActivity extends Activity
                     }
 
                     it.setFunc(lnF);
-                    it.setBracList(new LinkedList());
+                    it.setBracList(new CalculateList());
                     it.getBracList().setMother(it);
                     it.setMotherList(list);
 
@@ -821,12 +835,18 @@ public class MainActivity extends Activity
         {
             switch(v.getId())
             {
+                case R.id.btn_hist:
+                    intent.putExtra("History", histList);
+                    startActivity(intent);
+
+                    break;
+
                 case R.id.btn_C:
                     edit.setText("");
                     subEdit.setText("");
                     deg.setText("Rad");
 
-                    list = new LinkedList();
+                    list = new CalculateList();
                     list.setDeg(false);
                     it = list.getLast();
 
@@ -836,7 +856,11 @@ public class MainActivity extends Activity
                     break;
 
                 case R.id.btn_back:
-                    if(it.getPrintOp() == EQU) it.setPrintData(-1);
+                    if(it.getPrintOp() == EQU)
+                    {
+                        it.setPrintData(-1);
+                        isThere = false;
+                    }
 
                     if(it.getBracList() != null)
                     {
@@ -850,10 +874,20 @@ public class MainActivity extends Activity
 
                     else if(it.getHit())
                     {
-                        if(it.getPrintData() < 10) it.setHit(false);
-                        if(it.getPoint() > 0) it.setPoint(it.getPoint() - 1);
+                        if((it.getPrintData() == Math.PI) || (it.getPrintData() == Math.E))
+                        {
+                            it.setPrintData(0);
+                            it.setHit(false);
+                            ifPass = false;
+                        }
 
-                        it.setPrintData((int) (it.getPrintData() / 10));
+                        else
+                        {
+                            if((it.getPrintData() < 10) && (it.getPoint() == 0)) it.setHit(false);
+                            if(it.getPoint() > 0) it.setPoint(it.getPoint() - 1);
+
+                            it.setPrintData((int) (it.getPrintData() / 10));
+                        }
                     }
 
                     else if((!it.getHit()) && (it == list.getFirst()) && (list.getMother() != null))
@@ -875,7 +909,7 @@ public class MainActivity extends Activity
                         it = list.getLast();
                     }
 
-                    LinkedList abcd = list;
+                    CalculateList abcd = list;
                     while(abcd.getMother() != null) abcd = abcd.getMother().getMotherList();
                     String text = abcd.print();
 

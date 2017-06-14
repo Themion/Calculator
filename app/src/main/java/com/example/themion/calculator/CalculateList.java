@@ -1,6 +1,6 @@
 package com.example.themion.calculator;
 
-public class LinkedList
+public class CalculateList
 {
     final int ADD = 0;
     final int SUB = 1;
@@ -28,7 +28,7 @@ public class LinkedList
     private Node list;
     private Node first, last, mother;
 
-    LinkedList()
+    CalculateList()
     {
         this.ifDeg = false;
 
@@ -291,14 +291,11 @@ public class LinkedList
             {
                 if(it.getPrintData() == Math.PI) text += "π";
                 else if(it.getPrintData() == Math.E) text += "e";
-                else
+                else if(!((it.getNext() == null) && (!it.getHit())))
                 {
-                    if(!((it.getNext() == null) && (!it.getHit())))
-                    {
-                        if (it.getPoint() == 0) text += String.valueOf((int) it.getPrintData());
-                        else if (it.getPoint() == 1) text = text + String.valueOf((int) it.getPrintData()) + '.';
-                        else text += String.valueOf(it.getPrintData());
-                    }
+                    if (it.getPoint() == 0) text += String.valueOf((int) it.getPrintData());
+                    else if (it.getPoint() == 1) text = text + String.valueOf((int) it.getPrintData()) + '.';
+                    else text += String.valueOf(it.getPrintData());
                 }
             }
 
