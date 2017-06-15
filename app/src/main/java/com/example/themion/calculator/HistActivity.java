@@ -23,7 +23,6 @@ public class HistActivity extends Activity
 
         history = (TextView) findViewById(R.id.history);
 
-        int i = 0;
         String hist = intent.getStringExtra("History");
 
         history.setText(hist);

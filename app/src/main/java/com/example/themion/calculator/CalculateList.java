@@ -15,9 +15,10 @@ public class CalculateList
     final int tanF = 3;
     final int logF = 4;
     final int lnF = 5;
+    final int absF = 6;
 
     final String[] opSet = {" + ", " - ", " × ", " ÷ ", "^", " = "};
-    final String[] funcSet = {"(", "sin(", "cos(", "tan(", "log(", "ln("};
+    final String[] funcSet = {"(", "sin(", "cos(", "tan(", "log(", "ln(", "abs("};
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -172,6 +173,10 @@ public class CalculateList
                 case (lnF):
                     it.setCalcData(Math.log(it.getCalcData()));
                     break;
+
+                case (absF):
+                    it.setCalcData(Math.abs(it.getCalcData()));
+                    break;
             }
         }
 
@@ -241,27 +246,9 @@ public class CalculateList
         }
 
         this.getFirst().setCalcData(this.getLast().getCalcData());
-        this.getLast().setCalcData(0);
         this.dataCalc = this.getFirst().getCalcData();
 
         return this.dataCalc;
-    }
-
-/*------------------------------------------------------------------------------------------------------------------------------*/
-
-    void restore()
-    {
-        Node it = this.getFirst();
-
-        while(it != null)
-        {
-            it.setCalcData(it.getPrintData());
-            it.setCalcOp(it.getPrintOp());
-
-            if(it.getBracList() != null) it.getBracList().restore();
-
-            it = it.getNext();
-        }
     }
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
@@ -289,6 +276,8 @@ public class CalculateList
 
             else
             {
+                if(it.getPM() && !((it.getPrev() != null) && (it.getPrev().getCalcOp() == ADD))) text += "-";
+
                 if(it.getPrintData() == Math.PI) text += "π";
                 else if(it.getPrintData() == Math.E) text += "e";
                 else if(!((it.getNext() == null) && (!it.getHit())))

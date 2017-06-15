@@ -39,61 +39,64 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum = "4">
+            android:gravity="right"
+            android:weightSum="6">
 
             <Button
                 android:id="@+id/btn_help"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:layout_weight="1"
                 android:onClick="onClick"
-                android:layout_weight = "1"
                 android:text="Help!"
                 android:textAllCaps="false" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:weightSum = "8">
 
             <Button
                 android:id="@+id/btn_hist"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:onClick="onClick"
-                android:layout_weight = "2"
                 android:text="log" />
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight = "4"
+                android:layout_weight="2"
                 android:gravity="end|center" />
 
             <Button
                 android:id="@+id/btn_back"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:onClick="onClick"
-                android:layout_weight = "1"
-                android:textStyle="bold"
-                android:text="←" />
+                android:text="←"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btn_C"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:onClick="onClick"
-                android:layout_weight = "1"
                 android:text="C" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="5">
+            android:weightSum="6">
+
+            <Button
+                android:id="@+id/btn_brac"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="offClick"
+                android:text="(　)" />
 
             <Button
                 android:id="@+id/btn_sin"
@@ -144,29 +147,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="12">
+            android:weightSum="6">
 
             <Button
-                android:id="@+id/btn_lBrac"
+                android:id="@+id/btn_abs"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="offClick"
-                android:text="(" />
-
-            <Button
-                android:id="@+id/btn_rBrac"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:onClick="offClick"
-                android:text=")" />
+                android:onClick="onClick"
+                android:text="|　|"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_squ"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:onClick="onClick"
                 android:text="n²"
                 android:textAllCaps="false" />
@@ -175,7 +171,7 @@
                 android:id="@+id/btn_pow"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:onClick="onClick"
                 android:text="mⁿ"
                 android:textAllCaps="false" />
@@ -184,7 +180,7 @@
                 android:id="@+id/btn_exp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:onClick="onClick"
                 android:text="e"
                 android:textAllCaps="false" />
@@ -193,7 +189,7 @@
                 android:id="@+id/btn_log"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:onClick="onClick"
                 android:text="log"
                 android:textAllCaps="false" />
@@ -202,7 +198,7 @@
                 android:id="@+id/btn_ln"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:onClick="onClick"
                 android:text="ln"
                 android:textAllCaps="false" />
@@ -324,15 +320,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="8">
-
-            <Button
-                android:id="@+id/btn_pm"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onClick"
-                android:text="+/-" />
+            android:weightSum="4">
 
             <Button
                 android:id="@+id/btn_point"
@@ -346,7 +334,7 @@
                 android:id="@+id/btn_0"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:onClick="onClick"
                 android:text="0" />
 
@@ -354,14 +342,14 @@
                 android:id="@+id/btn_equ"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:text="=" />
 
             <Button
                 android:id="@+id/btn_div"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:text="÷" />
         </LinearLayout>
     </LinearLayout>
