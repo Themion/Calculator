@@ -356,10 +356,17 @@ public class MainActivity extends Activity
                 list = new CalculateList();
                 it = list.getLast();
                 it.setHit(true);
+
+                if(data == (int)data) it.setPoint(0);
+                else
+                {
+                    it.setPoint(2);
+                    data *= 10;
+                }
+
                 it.setPrintData(data);
 
                 abc = list;
-                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
 
                 subEdit.setText(abc.print());
 
@@ -467,7 +474,6 @@ public class MainActivity extends Activity
 
                     list.addNode();
                     it = it.getNext();
-                    it.setMD(true);
 
                     abc = list;
                     while(abc.getMother() != null) abc = abc.getMother().getMotherList();
@@ -561,6 +567,9 @@ public class MainActivity extends Activity
                 it.setHit(true);
                 it.setPrintData(data);
 
+                if(data == (int)data) it.setPoint(0);
+                else it.setPoint(1);
+
                 abc = list;
                 while(abc.getMother() != null) abc = abc.getMother().getMotherList();
 
@@ -639,6 +648,9 @@ public class MainActivity extends Activity
                 it = list.getLast();
                 it.setHit(true);
                 it.setPrintData(data);
+
+                if(data == (int)data) it.setPoint(0);
+                else it.setPoint(1);
 
                 abc = list;
                 while(abc.getMother() != null) abc = abc.getMother().getMotherList();
@@ -895,10 +907,12 @@ public class MainActivity extends Activity
                             ifPass = false;
                         }
 
+                        else if(it.getPoint() == 1) it.setPoint(0);
+
                         else
                         {
                             if((it.getPrintData() < 10) && (it.getPoint() == 0)) it.setHit(false);
-                            if(it.getPoint() > 0) it.setPoint(it.getPoint() - 1);
+                            else if(it.getPoint() > 0) it.setPoint(it.getPoint() - 1);
 
                             it.setPrintData((int) (it.getPrintData() / 10));
                         }

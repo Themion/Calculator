@@ -24,20 +24,14 @@ public class CalculateList
 
     private boolean ifDeg = false;
 
-    private double dataCalc;
-
-    private Node list;
     private Node first, last, mother;
 
     CalculateList()
     {
         this.ifDeg = false;
 
-        this.dataCalc = 0;
-
-        this.list = new Node();
-        this.first = this.list;
-        this.last = this.list;
+        this.first = new Node();
+        this.last = this.first;
         this.mother = null;
 
         this.first.setMotherList(this);
@@ -51,35 +45,34 @@ public class CalculateList
 
     void setDeg(boolean ifDeg) {this.ifDeg = ifDeg;}
 
+    void setFirst(Node first) {this.first = first;}
     void setLast(Node last) {this.last = last;}
     void setMother(Node mother) {this.mother = mother;}
 
     void addNode()
     {
-        if(this.list == null)
+        if(this.getFirst() == null)
         {
-            this.list = new Node();
-            this.list.setMotherList(this);
-            this.first = this.list;
-            this.last = this.list;
+            this.setFirst(new Node());
+            this.setLast(this.getFirst());
         }
 
         else
         {
-            this.last.setNext(new Node());
-            this.last.getNext().setPrev(this.getLast());
-            this.last = this.getLast().getNext();
-            this.last.setMotherList(this);
+            this.getLast().setNext(new Node());
+            this.getLast().getNext().setPrev(this.getLast());
+            this.setLast(this.getLast().getNext());
         }
 
+        this.getLast().setMotherList(this);
         this.getLast().setNext(null);
     }
 
     void popNode()
     {
-        if(this.list == null) return;
+        if(this.getFirst() == null) return;
 
-        this.last = this.getLast().getPrev();
+        this.setLast(this.getLast().getPrev());
         this.getLast().getNext().setPrev(null);
         this.getLast().setNext(null);
     }
@@ -88,8 +81,6 @@ public class CalculateList
 
     double doCalc()
     {
-        this.dataCalc = 0;
-
         Node it = new Node();
         it.setNext(this.getFirst());
 
@@ -101,7 +92,7 @@ public class CalculateList
 
             if(it.getPoint() > 0) it.setCalcData(it.getCalcData() / Math.pow(10, it.getPoint() - 1));
             if(it.getPM()) it.setCalcData(it.getCalcData() * (-1));
-            if(it.getMD()) it.setCalcData(1 / (it.getCalcData()));
+            if((it.getPrev() != null) && (it.getPrev().getPrintOp() == DIV)) it.setCalcData(1 / (it.getCalcData()));
 
             switch(it.getFunc())
             {
@@ -182,11 +173,7 @@ public class CalculateList
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
-        if(this.getFirst() == this.getLast())
-        {
-            this.dataCalc = this.getFirst().getCalcData();
-            return this.dataCalc;
-        }
+        if(this.getFirst() == this.getLast()) return this.getFirst().getCalcData();
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -236,8 +223,6 @@ public class CalculateList
             {
                 case (ADD):
                     it.getNext().setCalcData(it.getCalcData() + it.getNext().getCalcData());
-                    it.setCalcOp(ADD);
-                    it.setCalcData(0);
 
                     break;
             }
@@ -245,10 +230,19 @@ public class CalculateList
             it = it.getNext();
         }
 
-        this.getFirst().setCalcData(this.getLast().getCalcData());
-        this.dataCalc = this.getFirst().getCalcData();
+        it = this.getFirst();
 
-        return this.dataCalc;
+        while(it != this.getLast())
+        {
+            it.setCalcData(it.getPrintData());
+            it.setCalcOp(it.getPrintOp());
+
+            it = it.getNext();
+        }
+
+        it.setCalcOp(-1);
+
+        return this.getLast().getCalcData();
     }
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
@@ -282,8 +276,8 @@ public class CalculateList
                 else if(it.getPrintData() == Math.E) text += "e";
                 else if(!((it.getNext() == null) && (!it.getHit())))
                 {
-                    if (it.getPoint() == 0) text += String.valueOf((int) it.getPrintData());
-                    else if (it.getPoint() == 1) text = text + String.valueOf((int) it.getPrintData()) + '.';
+                    if (it.getPoint() == 1) text = text + String.valueOf((int) it.getPrintData()) + '.';
+                    else if (it.getPrintData() == (int) it.getPrintData()) text = text + String.valueOf((int) it.getPrintData());
                     else text += String.valueOf(it.getPrintData());
                 }
             }
