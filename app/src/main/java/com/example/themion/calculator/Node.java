@@ -4,7 +4,7 @@ package com.example.themion.calculator;
  * Created by Themion on 2017-05-24.
  */
 
-public class Node {
+class Node {
     final int NOT_AN_OPERATOR = -1;
 
     final int noFunc = 0;

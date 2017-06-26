@@ -884,7 +884,7 @@ public class MainActivity extends Activity
                 case R.id.btn_back:
                     if(it.getPrintOp() == EQU)
                     {
-                        it.setPrintData(-1);
+                        it.setPrintOp(NOT_AN_OPERATOR);
                         isThere = false;
                     }
 
