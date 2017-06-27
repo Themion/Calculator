@@ -234,6 +234,7 @@ public class CalculateList
 
         double ret = this.getLast().getCalcData();
 
+        /*
         while(it != null)
         {
             it.setCalcData(it.getPrintData());
@@ -241,7 +242,7 @@ public class CalculateList
 
             it = it.getNext();
         }
-
+*/
         return ret;
     }
 

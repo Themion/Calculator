@@ -413,15 +413,25 @@ public class MainActivity extends Activity
 
                         else
                         {
-                            if(list.getMother().getFunc() == noF)
+                            if(list.getMother() == null)
+                            {
+                                it.setBracList(new CalculateList());
+                                it.getBracList().setMother(it);
+                                it.setMotherList(list);
+
+                                list = it.getBracList();
+                                it = it.getBracList().getFirst();
+
+                                it.setPM(true);
+                            }
+
+                            else if(list.getMother().getFunc() == noF)
                             {
                                 it = list.getMother();
                                 list = it.getMotherList();
 
                                 it.setBracList(null);
                             }
-
-                            it.setPM(false);
                         }
 
                         abc = list;
