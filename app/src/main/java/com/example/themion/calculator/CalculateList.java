@@ -232,18 +232,7 @@ public class CalculateList
 
         it = this.getFirst();
 
-        double ret = this.getLast().getCalcData();
-
-        /*
-        while(it != null)
-        {
-            it.setCalcData(it.getPrintData());
-            it.setCalcOp(it.getPrintOp());
-
-            it = it.getNext();
-        }
-*/
-        return ret;
+        return this.getLast().getCalcData();
     }
 
 /*------------------------------------------------------------------------------------------------------------------------------*/

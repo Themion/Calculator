@@ -36,6 +36,7 @@ public class MainActivity extends Activity
     TextView edit, subEdit;
 
     Button C, back, hist;
+    Button  help, point, pi, exp;
     Button add, sub, mult, div, pow, equ;
     Button brac, abs;
     Button log, ln, squ;
@@ -59,6 +60,18 @@ public class MainActivity extends Activity
 
         edit = (TextView) findViewById(R.id.edit);
         subEdit = (TextView) findViewById(R.id.subEdit);
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
+        help = (Button) findViewById(R.id.btn_help);
+        point = (Button) findViewById(R.id.btn_point);
+        pi = (Button) findViewById(R.id.btn_pi);
+        exp = (Button) findViewById(R.id.btn_exp);
+
+        point.setOnClickListener(nLsn);
+        pi.setOnClickListener(nLsn);
+        exp.setOnClickListener(nLsn);
+        help.setOnClickListener(nLsn);
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -128,7 +141,7 @@ public class MainActivity extends Activity
     {
         CalculateList abc;
 
-        if(it.getNext() != null) it = it.getNext();
+        while(it.getNext() != null) it = it.getNext();
 
         if (isThere)
         {
@@ -161,13 +174,6 @@ public class MainActivity extends Activity
 
         switch (v.getId())
         {
-            case R.id.btn_help:
-                Intent link = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mathway.com/ko/FiniteMath"));
-                link.addCategory(Intent.CATEGORY_BROWSABLE);
-                startActivity(link);
-
-                break;
-
             case R.id.btn_0:
                 it.setPrintData(it.getPrintData() * 10 + 0);
                 it.setHit(true);
@@ -277,64 +283,115 @@ public class MainActivity extends Activity
                 subEdit.setText(abc.print());
 
                 break;
-
-            case R.id.btn_point:
-                if(!it.getHit()) break;
-                if(it.getPoint() == 0) it.setPoint(1);
-
-                abc = list;
-                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
-
-                subEdit.setText(abc.print());
-
-                break;
-
-            case R.id.btn_pi:
-                if(it.getHit())
-                {
-                    it.setPrintOp(MULT);
-                    list.addNode();
-                    it = it.getNext();
-                }
-
-                it.setPrintData(Math.PI);
-                it.setHit(true);
-
-                abc = list;
-                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
-
-                subEdit.setText(abc.print());
-
-                isThere = false;
-                ifPass = true;
-
-                break;
-
-            //자연상수 e를 입력할 때
-            case R.id.btn_exp:
-                if(it.getHit())
-                {
-                    it.setPrintOp(MULT);
-                    list.addNode();
-                    it = it.getNext();
-                }
-
-                it.setPrintData(Math.E);
-                it.setHit(true);
-
-                abc = list;
-                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
-
-                subEdit.setText(abc.print());
-
-                isThere = false;
-                ifPass = true;
-
-                break;
         }
     }
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
-//*------------------------------------------------------------------------------------------------------------------------------*/
+    Button.OnClickListener nLsn = new Button.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            if(it.getPoint() == 1) return;
+
+            CalculateList abc;
+
+            while(it.getNext() != null) it = it.getNext();
+
+            if (isThere)
+            {
+                edit.setText("");
+                subEdit.setText("");
+
+                list = new CalculateList();
+                it = list.getLast();
+
+                isThere = false;
+                ifPass = false;
+            }
+
+            if(ifPass)
+            {
+                it.setPrintOp(MULT);
+
+                list.addNode();
+                it = it.getNext();
+
+                abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+
+                subEdit.setText(abc.print());
+
+                ifPass = false;
+            }
+
+            switch(v.getId())
+            {
+                case R.id.btn_help:
+                    Intent link = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.mathway.com/ko/FiniteMath"));
+                    link.addCategory(Intent.CATEGORY_BROWSABLE);
+                    startActivity(link);
+
+                    break;
+
+                case R.id.btn_point:
+                    if((!it.getHit()) || (it.getPoint() != 0)) break;
+                    it.setPoint(1);
+
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+
+                    subEdit.setText(abc.print());
+
+                    break;
+
+                case R.id.btn_pi:
+                    if(it.getHit())
+                    {
+                        it.setPrintOp(MULT);
+                        list.addNode();
+                        it = it.getNext();
+                    }
+
+                    it.setPrintData(Math.PI);
+                    it.setHit(true);
+
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+
+                    subEdit.setText(abc.print());
+
+                    isThere = false;
+                    ifPass = true;
+
+                    break;
+
+                //자연상수 e를 입력할 때
+                case R.id.btn_exp:
+                    if(it.getHit())
+                    {
+                        it.setPrintOp(MULT);
+                        list.addNode();
+                        it = it.getNext();
+                    }
+
+                    it.setPrintData(Math.E);
+                    it.setHit(true);
+
+                    abc = list;
+                    while(abc.getMother() != null) abc = abc.getMother().getMotherList();
+
+                    subEdit.setText(abc.print());
+
+                    isThere = false;
+                    ifPass = true;
+
+                    break;
+            }
+        }
+    };
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
 
     Button.OnClickListener opLsn = new Button.OnClickListener()
     {
@@ -356,17 +413,18 @@ public class MainActivity extends Activity
                 list = new CalculateList();
                 it = list.getLast();
                 it.setHit(true);
+                it.setPrintData(data);
 
                 if(data == (int)data) it.setPoint(0);
+
                 else
                 {
                     it.setPoint(2);
                     data *= 10;
                 }
 
-                it.setPrintData(data);
-
                 abc = list;
+                while(abc.getMother() != null) abc = abc.getMother().getMotherList();
 
                 subEdit.setText(abc.print());
 
@@ -374,7 +432,8 @@ public class MainActivity extends Activity
                 ifPass = false;
             }
 
-            switch (v.getId()) {
+            switch (v.getId())
+            {
                 case R.id.btn_add:
                     if(!it.getHit()) return;
 
@@ -578,7 +637,12 @@ public class MainActivity extends Activity
                 it.setPrintData(data);
 
                 if(data == (int)data) it.setPoint(0);
-                else it.setPoint(1);
+
+                else
+                {
+                    it.setPoint(2);
+                    data *= 10;
+                }
 
                 abc = list;
                 while(abc.getMother() != null) abc = abc.getMother().getMotherList();
@@ -660,7 +724,12 @@ public class MainActivity extends Activity
                 it.setPrintData(data);
 
                 if(data == (int)data) it.setPoint(0);
-                else it.setPoint(1);
+
+                else
+                {
+                    it.setPoint(2);
+                    data *= 10;
+                }
 
                 abc = list;
                 while(abc.getMother() != null) abc = abc.getMother().getMotherList();
