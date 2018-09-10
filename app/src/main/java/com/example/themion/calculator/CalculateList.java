@@ -87,6 +87,7 @@ public class CalculateList
         while(it != this.getLast())
         {
             boolean ifOverSingularity = false;
+            //used in tri-func
 
             it = it.getNext();
 

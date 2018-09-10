@@ -39,8 +39,8 @@ class Node {
         this.point = 0;
         this.func = noFunc;
 
-        this.pm = false;
-        this.hit = false;
+        this.pm = false; //plus or minus
+        this.hit = false; //if calculation butten is hit
 
         this.next = null;
         this.prev = null;
